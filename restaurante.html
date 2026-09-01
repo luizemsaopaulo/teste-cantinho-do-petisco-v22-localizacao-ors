@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#b20d18">
+  <meta name="description" content="Cardápio completo do Cantinho do Petisco para uso no restaurante.">
+
+
+
+  <link rel="canonical" href="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/restaurante.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cantinho do Petisco">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:url" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/restaurante.html">
+  <meta property="og:title" content="Cantinho do Petisco | Cardápio no Restaurante">
+  <meta property="og:description" content="Confira o cardápio completo do Cantinho do Petisco com pratos, porções e bebidas.">
+  <meta property="og:image" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/assets/whatsapp-preview-v2.jpg?v=22">
+  <meta property="og:image:url" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/assets/whatsapp-preview-v2.jpg?v=22">
+  <meta property="og:image:secure_url" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/assets/whatsapp-preview-v2.jpg?v=22">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cantinho do Petisco — cardápio digital e delivery">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cantinho do Petisco | Cardápio no Restaurante">
+  <meta name="twitter:description" content="Confira o cardápio completo do Cantinho do Petisco com pratos, porções e bebidas.">
+  <meta name="twitter:image" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/assets/whatsapp-preview-v2.jpg?v=22">
+  <title>Cantinho do Petisco | Cardápio no Restaurante</title>
+  <link rel="manifest" href="manifest.webmanifest?v=22">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Cantinho">
+  <link rel="apple-touch-icon" href="assets/icon-client-192.png?v=22">
+  <link rel="stylesheet" href="css/styles.css?v=22">
+</head>
+<body data-menu-mode="restaurant">
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand-lockup" aria-label="Cantinho do Petisco">
+          <div class="brand-mark" aria-hidden="true">CP</div>
+          <div>
+            <p class="eyebrow">Cardápio do restaurante</p>
+            <h1>Cantinho do Petisco</h1>
+            <p class="brand-subtitle">Comida bem feita, sem complicação.</p>
+          </div>
+        </div>
+        <button id="openCartTop" class="cart-top" type="button" aria-label="Abrir carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 9.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 7H7.1M10 19a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg>
+          <span>Meu pedido</span>
+          <strong id="cartCountTop">0</strong>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy">
+          <span class="hero-kicker"><span></span> Cardápio completo da casa</span>
+          <h2 id="heroTitle">Comida de verdade, feita para dar vontade.</h2>
+          <p>Consulte o cardápio completo da casa, incluindo os itens disponíveis somente para consumo presencial.</p>
+          <div class="hero-trust">
+            <span>✓ Cardápio completo</span>
+            <span>✓ Itens presenciais</span>
+            <span>✓ Preços atualizados</span>
+            <button id="installClientBtn" class="pwa-install-inline hidden" type="button">📲 Instalar app</button>
+          </div>
+        </div>
+        <div class="hero-note">
+          <div class="hero-note-badge">Hoje</div>
+          <span class="hero-note-icon">✦</span>
+          <div><strong>Feito com carinho</strong><span>Pratos, porções e bebidas para deixar seu momento ainda melhor.</span></div>
+        </div>
+      </section>
+
+      <section id="dailySpecialSection" class="daily-special-section hidden" aria-label="Prato do dia">
+        <div id="dailySpecialCard" class="daily-special-card"></div>
+      </section>
+
+      <section class="menu-tools" aria-label="Ferramentas do cardápio">
+        <label class="search-box" for="searchInput">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Buscar prato, porção ou bebida" autocomplete="off">
+          <button id="clearSearch" class="clear-search hidden" type="button" aria-label="Limpar busca">×</button>
+        </label>
+        <nav id="categoryNav" class="category-nav" aria-label="Categorias"></nav>
+      </section>
+
+      <section id="menuStatus" class="state-card">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Carregando o cardápio…</p>
+      </section>
+      <div id="menuRoot" class="menu-root hidden"></div>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Cantinho do Petisco</strong>
+        <p>Cardápio completo para uso no restaurante.</p>
+      </div>
+      <div class="footer-actions">
+        <button id="privacyBtn" class="text-button" type="button">Privacidade e LGPD</button>
+      </div>
+      <p class="minor">Venda de bebidas alcoólicas proibida para menores de 18 anos.</p>
+    </footer>
+  </div>
+
+  <button id="mobileCartBar" class="floating-cart hidden" type="button" aria-label="Abrir carrinho">
+    <span class="floating-cart-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 4h2l2.1 9.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 7H7.1M10 19a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg>
+      <strong id="cartCountMobile" class="floating-cart-badge">0</strong>
+    </span>
+    <span class="floating-cart-copy"><small>Meu pedido</small><strong id="cartTotalMobile">R$ 0,00</strong></span>
+  </button>
+
+  <div id="overlay" class="overlay hidden" aria-hidden="true"></div>
+
+  <aside id="cartDrawer" class="cart-drawer" aria-label="Seu pedido" aria-hidden="true">
+    <div class="drawer-head">
+      <div><span class="eyebrow">Seu pedido</span><h2>Resumo</h2></div>
+      <button id="closeCart" class="icon-button" type="button" aria-label="Fechar carrinho">×</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div id="cartEmpty" class="empty-cart">
+      <div class="empty-icon">♡</div>
+      <strong>Seu pedido está vazio</strong>
+      <p>Escolha algo do cardápio e ele aparece aqui.</p>
+    </div>
+    <div id="cartFooter" class="cart-footer hidden">
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+      <button id="checkoutBtn" class="primary-button" type="button">Continuar pedido</button>
+    </div>
+  </aside>
+
+  <dialog id="itemDialog" class="app-dialog item-dialog">
+    <form id="itemForm">
+      <button id="closeItemDialog" class="dialog-close" type="button" aria-label="Fechar">×</button>
+      <div id="itemDialogVisual" class="item-dialog-visual"></div>
+      <div class="dialog-body">
+        <span id="itemDialogCategory" class="eyebrow"></span>
+        <h2 id="itemDialogName"></h2>
+        <p id="itemDialogDescription" class="dialog-description"></p>
+        <div class="item-price-row"><strong id="itemDialogPrice"></strong><span id="itemAvailability"></span></div>
+        <div id="sizePickerWrap" class="size-picker-wrap hidden">
+          <div class="size-picker-head"><div><span class="size-picker-label">Escolha o tamanho</span><small>O preço muda conforme o tamanho selecionado.</small></div><span id="selectedSizeLabel" class="selected-size-label"></span></div>
+          <div id="sizePicker" class="size-picker" role="radiogroup" aria-label="Escolha o tamanho"></div>
+          <p id="sizeRequiredMessage" class="size-required-message hidden" role="alert">Selecione um tamanho para continuar.</p>
+        </div>
+        <div id="itemOptions" class="item-options hidden" aria-live="polite"></div>
+        <label id="itemNoteWrap" class="field-label">Observação do item <small class="optional-hint">(opcional)</small>
+          <textarea id="itemNote" rows="3" maxlength="180" placeholder="Ex.: retirar ou acrescentar algo? Escreva aqui (opcional)."></textarea>
+        </label>
+        <div class="add-row">
+          <div class="quantity-control" aria-label="Quantidade">
+            <button id="itemQtyMinus" type="button">−</button><strong id="itemQty">1</strong><button id="itemQtyPlus" type="button">+</button>
+          </div>
+          <button id="addItemBtn" class="primary-button" type="submit" value="default">Adicionar</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="checkoutDialog" class="app-dialog checkout-dialog">
+    <form id="checkoutForm">
+      <button id="closeCheckoutDialog" class="dialog-close" type="button" aria-label="Fechar">×</button>
+      <div class="dialog-body">
+        <span class="eyebrow">Finalizar</span>
+        <h2>Só falta confirmar alguns detalhes</h2>
+        <p class="dialog-description">Esses dados não são gravados no Supabase pelo cardápio; eles entram apenas na mensagem enviada ao WhatsApp.</p>
+
+        <label class="field-label">Seu nome <span>*</span>
+          <input id="customerName" type="text" maxlength="80" required placeholder="Como podemos chamar você?">
+        </label>
+
+        <fieldset class="segmented-fieldset">
+          <legend>Como vai receber?</legend>
+          <label><input type="radio" name="fulfillment" value="Retirada" checked><span>Retirada</span></label>
+          <label><input type="radio" name="fulfillment" value="Entrega"><span>Entrega</span></label>
+        </fieldset>
+
+        <div id="addressFields" class="conditional-fields hidden">
+          <div id="deliveryLocationCard" class="delivery-location-card">
+            <div class="delivery-location-head">
+              <div><strong>📍 Calcular entrega</strong><small>Usamos a distância real de carro pelas ruas.</small></div>
+              <span class="delivery-limit">até 3 km</span>
+            </div>
+            <button id="useLocationBtn" class="location-primary-button" type="button">📍 Usar minha localização</button>
+            <div class="delivery-or"><span>ou informe o endereço</span></div>
+
+            <label class="field-label">Endereço <span>*</span>
+              <input id="customerAddress" type="text" maxlength="180" placeholder="Rua, número e complemento">
+            </label>
+            <label class="field-label">Bairro
+              <input id="customerDistrict" type="text" maxlength="80" placeholder="Seu bairro">
+            </label>
+            <button id="calcAddressBtn" class="secondary-button delivery-address-button" type="button">Calcular pelo endereço</button>
+            <p id="deliveryStatus" class="delivery-status info">Calcule a distância para liberar o envio do pedido.</p>
+            <div id="deliveryResult" class="delivery-result hidden" aria-live="polite">
+              <span><small>Distância</small><strong id="deliveryDistance">—</strong></span>
+              <span><small>Tempo estimado</small><strong id="deliveryDuration">—</strong></span>
+              <span><small>Taxa</small><strong id="deliveryFee">—</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <label class="field-label">Forma de pagamento
+          <select id="paymentMethod">
+            <option>Pix</option>
+            <option>Cartão</option>
+            <option>Dinheiro</option>
+          </select>
+        </label>
+
+        <label id="changeField" class="field-label hidden">Troco para
+          <input id="changeFor" type="text" inputmode="decimal" maxlength="20" placeholder="Ex.: 100,00">
+        </label>
+
+        <label class="field-label">Observação geral
+          <textarea id="orderNote" rows="3" maxlength="240" placeholder="Alguma observação para o pedido?"></textarea>
+        </label>
+
+        <div class="checkout-summary">
+          <span>Total do pedido</span><strong id="checkoutTotal">R$ 0,00</strong>
+        </div>
+        <button id="sendWhatsappBtn" class="primary-button whatsapp-button" type="submit" value="default">Enviar pedido no WhatsApp</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="privacyDialog" class="app-dialog info-dialog">
+    <form method="dialog">
+      <button class="dialog-close" value="cancel" aria-label="Fechar">×</button>
+      <div class="dialog-body">
+        <span class="eyebrow">Privacidade</span>
+        <h2>Como este cardápio trata seus dados</h2>
+        <p>O cardápio usa o Supabase para exibir produtos, preços e disponibilidade. Os dados que você informa ao finalizar o pedido são usados para montar a mensagem do WhatsApp e não são salvos no banco de dados por esta página.</p>
+        <p>O carrinho pode ficar salvo localmente no seu próprio navegador para facilitar a continuidade do pedido. Não usamos rastreadores de publicidade neste projeto.</p>
+        <button class="secondary-button" value="cancel">Entendi</button>
+      </div>
+    </form>
+  </dialog>
+
+
+  <aside id="installSuggestion" class="pwa-install-suggestion hidden" aria-label="Instalar aplicativo">
+    <div class="pwa-install-icon">📲</div>
+    <div class="pwa-install-copy"><strong>Quer o cardápio na tela do celular?</strong><span>Instale o Cantinho do Petisco para abrir mais rápido.</span></div>
+    <div class="pwa-install-actions"><button id="installSuggestionInstall" class="primary-button compact" type="button">Instalar</button><button id="installSuggestionDismiss" class="text-button" type="button">Agora não</button></div>
+  </aside>
+  <dialog id="iosInstallDialog" class="app-dialog info-dialog pwa-ios-dialog"><div class="dialog-body"><span class="eyebrow">Instalar no iPhone</span><h2>Adicionar à Tela de Início</h2><p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><button id="closeIosInstall" class="primary-button" type="button">Entendi</button></div></dialog>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/supabase-rest.js"></script>
+  <script src="js/delivery.js?v=22"></script>
+  <script src="js/app.js?v=22"></script>
+  <script src="js/pwa-client.js?v=22"></script>
+</body>
+</html>

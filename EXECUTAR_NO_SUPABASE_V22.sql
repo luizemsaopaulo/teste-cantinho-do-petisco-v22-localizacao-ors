@@ -1,0 +1,2 @@
+-- V22: não exige alteração de banco para localização/taxa de entrega.
+-- Nenhum SQL precisa ser executado para este recurso.

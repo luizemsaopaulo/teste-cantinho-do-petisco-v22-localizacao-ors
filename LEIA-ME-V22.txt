@@ -1,0 +1,22 @@
+CANTINHO DO PETISCO — V22
+
+FOCO: LOCALIZAÇÃO + TAXA DE ENTREGA
+
+Fluxo do cliente:
+1. Escolhe Entrega.
+2. Toca em Usar minha localização (ou digita o endereço).
+3. O navegador fornece o GPS.
+4. OpenRouteService calcula a rota real de carro.
+5. Até 3 km: taxa R$ 5,00 e envio liberado.
+6. Acima de 3 km: entrega bloqueada.
+7. Taxa e distância aparecem no checkout e no WhatsApp.
+
+Não há SQL novo obrigatório.
+
+Endpoint ORS atual utilizado:
+https://api.heigit.org/openrouteservice/v2/directions/driving-car/geojson
+Geocoding atual utilizado:
+https://api.heigit.org/pelias/v1/search
+https://api.heigit.org/pelias/v1/reverse
+
+Veja DEPURACAO_CHROMIUM_V22.txt antes de publicar.

@@ -1,0 +1,12 @@
+CANTINHO DO PETISCO — ALTERAÇÕES V22
+
+1. Entrega por GPS com navigator.geolocation.
+2. Distância real de carro calculada pelo OpenRouteService no endpoint novo api.heigit.org.
+3. Alternativa: cálculo pelo endereço digitado.
+4. Limite configurado: até 3 km.
+5. Taxa configurada: R$ 5,00 até 3 km (mesmo valor usado no código antigo apresentado).
+6. Acima de 3 km o envio por entrega é bloqueado; cliente pode escolher Retirada.
+7. Taxa e distância entram no resumo/total e na mensagem do WhatsApp.
+8. GPS pode preencher o endereço aproximado por reverse geocoding.
+9. Cache/PWA atualizado para V22.
+10. A chave ORS está no frontend para funcionar imediatamente no GitHub Pages, conforme solicitado. Há proxy Supabase opcional em supabase/functions/calc-delivery para esconder a chave futuramente.

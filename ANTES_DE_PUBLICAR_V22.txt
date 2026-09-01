@@ -1,0 +1,14 @@
+CANTINHO DO PETISCO — V22 — ANTES DE PUBLICAR
+
+1) Substitua TODOS os arquivos do repositório cantinho-do-petisco-v14 pelos arquivos desta pasta.
+2) Não precisa executar SQL novo para a localização.
+3) O GitHub Pages precisa estar em HTTPS (já é) para o GPS funcionar.
+4) Abra após publicar:
+   Delivery: https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/?v=22
+   Restaurante: https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/restaurante.html?v=22
+   Admin: https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/admin.html?v=22
+5) Faça um teste no celular: Entrega > Usar minha localização > permitir GPS.
+6) Se a rota passar de 3 km, o site bloqueia a entrega e informa o motivo.
+
+SEGURANÇA
+A chave ORS foi colocada no frontend para a versão funcionar imediatamente em hospedagem estática. Isso significa que ela pode ser visualizada por quem inspecionar o JavaScript. O pacote inclui uma Edge Function opcional em supabase/functions/calc-delivery para migrar depois para chave secreta sem precisar redesenhar a tela.

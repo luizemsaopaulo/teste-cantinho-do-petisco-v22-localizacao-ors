@@ -1,0 +1,11 @@
+-- ============================================================
+-- ARQUIVO LEGADO — NÃO EXECUTAR NA V19
+-- ============================================================
+-- A V19 permite VÁRIOS pratos no mesmo dia da semana.
+-- A migração antiga limitava a apenas um prato por weekday e poderia
+-- desfazer a nova lógica.
+--
+-- Use somente:
+--   MIGRACAO_V19_PRATO_DO_DIA_MARMITAS.sql
+-- ============================================================
+select 'NÃO EXECUTAR ESTE ARQUIVO NA V19. Use MIGRACAO_V19_PRATO_DO_DIA_MARMITAS.sql' as aviso;

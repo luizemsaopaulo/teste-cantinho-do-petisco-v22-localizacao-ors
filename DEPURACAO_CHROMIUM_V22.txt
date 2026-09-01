@@ -1,0 +1,62 @@
+CANTINHO DO PETISCO — DEPURAÇÃO CHROMIUM V22
+=============================================
+
+RESULTADO: 28/28 PASS
+
+Navegador: Chromium real (/usr/bin/chromium), controlado por Playwright.
+Resoluções testadas:
+- Desktop: 1440 x 1000
+- Mobile: 390 x 844
+
+OBSERVAÇÃO DE REDE DO AMBIENTE DE TESTE
+O container desta sessão não resolve DNS externo para api.heigit.org, então a resposta do OpenRouteService foi simulada no navegador com o MESMO formato esperado da API real. A integração usa os endpoints atuais do HeiGIT/OpenRouteService:
+- /pelias/v1/search
+- /pelias/v1/reverse
+- /openrouteservice/v2/directions/driving-car/geojson
+O fluxo, parsing, validações, total e WhatsApp foram executados no Chromium real.
+
+DESKTOP
+PASS — item adicionado ao carrinho
+PASS — card de localização aparece ao escolher Entrega
+PASS — botão de enviar fica bloqueado antes de calcular
+PASS — GPS preenche endereço aproximado
+PASS — distância de 2,50 km é exibida
+PASS — taxa de R$ 5,00 é exibida
+PASS — total soma taxa corretamente
+PASS — envio é liberado após rota válida
+PASS — WhatsApp inclui taxa de entrega
+PASS — WhatsApp inclui distância da entrega
+PASS — WhatsApp inclui total com taxa
+PASS — rota de 4,50 km bloqueia entrega
+PASS — mensagem informa limite de 3 km
+PASS — console sem erros JavaScript
+
+MOBILE
+PASS — item adicionado ao carrinho
+PASS — card de localização aparece ao escolher Entrega
+PASS — botão de enviar fica bloqueado antes de calcular
+PASS — GPS preenche endereço aproximado
+PASS — distância de 2,50 km é exibida
+PASS — taxa de R$ 5,00 é exibida
+PASS — total soma taxa corretamente
+PASS — envio é liberado após rota válida
+PASS — WhatsApp inclui taxa de entrega
+PASS — WhatsApp inclui distância da entrega
+PASS — WhatsApp inclui total com taxa
+PASS — rota de 4,50 km bloqueia entrega
+PASS — mensagem informa limite de 3 km
+PASS — console sem erros JavaScript
+
+REGRAS V22 TESTADAS
+- Entrega somente até 3 km.
+- Taxa até 3 km: R$ 5,00.
+- Distância calculada por rota de carro, não linha reta.
+- Cliente pode usar GPS ou endereço digitado.
+- Se endereço manual for alterado depois do cálculo, a rota é invalidada e precisa ser recalculada.
+- Acima do limite o WhatsApp não é liberado para Entrega.
+- Retirada continua disponível sem taxa.
+- Taxa e distância entram na mensagem do pedido.
+
+ARQUIVOS DE QA
+- qa_v22_desktop.png
+- qa_v22_mobile.png
