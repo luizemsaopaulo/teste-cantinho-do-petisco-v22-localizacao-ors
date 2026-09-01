@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#b20d18">
   <meta name="robots" content="noindex,nofollow">
   <title>Admin | Cantinho do Petisco</title>
-  <link rel="manifest" href="manifest-admin.webmanifest?v=23">
+  <link rel="manifest" href="manifest-admin.webmanifest?v=24">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cantinho ADM">
-  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=23">
-  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=24">
+  <link rel="stylesheet" href="css/styles.css?v=24">
 </head>
 <body class="admin-body">
   <main class="admin-shell">
@@ -76,6 +76,8 @@
           <div class="admin-tools-divider" role="separator"></div>
           <button id="qrDeliveryBtn" class="admin-tools-item" type="button"><span>▦</span><strong>QR Code Delivery</strong></button>
           <button id="qrRestaurantBtn" class="admin-tools-item" type="button"><span>▦</span><strong>QR Code Restaurante</strong></button>
+          <div class="admin-tools-divider" role="separator"></div>
+          <button id="deliverySettingsBtn" class="admin-tools-item" type="button"><span>⚙️</span><strong>Configurações do Delivery</strong></button>
         </nav>
       </aside>
       <div class="admin-metrics">
@@ -302,6 +304,58 @@
     </div>
   </dialog>
 
+
+  <dialog id="deliverySettingsDialog" class="app-dialog delivery-settings-dialog">
+    <form id="deliverySettingsForm" class="dialog-body delivery-settings-form">
+      <button id="closeDeliverySettings" class="dialog-close" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">Delivery</span>
+      <h2>Configurações do Delivery</h2>
+      <p class="dialog-description">Altere regras de entrega sem editar código nem republicar o site. As mudanças ficam no Supabase.</p>
+
+      <div id="deliverySettingsLoading" class="form-message">Carregando configurações…</div>
+      <div id="deliverySettingsFields" class="hidden">
+        <section class="delivery-settings-section">
+          <label class="admin-check-row"><input id="deliveryEnabled" type="checkbox"><span><strong>Delivery ativo</strong><small>Desmarque para suspender temporariamente todas as entregas.</small></span></label>
+          <label class="admin-check-row"><input id="deliveryEnforceHours" type="checkbox"><span><strong>Respeitar horário de funcionamento</strong><small>Quando ativo, pedidos de entrega ficam bloqueados fora dos horários abaixo.</small></span></label>
+        </section>
+
+        <section class="delivery-settings-section">
+          <h3>Distância e valores</h3>
+          <div class="delivery-settings-grid">
+            <label>Distância máxima (km)<input id="deliveryMaxKm" type="number" min="0.1" max="100" step="0.1" required></label>
+            <label>Pedido mínimo (R$)<input id="deliveryMinimumOrder" type="number" min="0" step="0.01" placeholder="Sem mínimo"></label>
+            <label>Entrega grátis a partir de (R$)<input id="deliveryFreeOver" type="number" min="0" step="0.01" placeholder="Desativado"></label>
+            <label>Tempo mínimo estimado (min)<input id="deliveryEtaMin" type="number" min="0" max="600" step="1"></label>
+            <label>Tempo máximo estimado (min)<input id="deliveryEtaMax" type="number" min="0" max="600" step="1"></label>
+          </div>
+          <p class="delivery-coordinate-note">Origem fixa do comércio: <strong>-23.055199, -46.3526171</strong></p>
+        </section>
+
+        <section class="delivery-settings-section">
+          <div class="delivery-settings-section-head"><div><h3>Taxas por distância</h3><p>A primeira faixa cujo limite contenha a distância será usada.</p></div><button id="addDeliveryTier" class="secondary-button small" type="button">+ Adicionar faixa</button></div>
+          <div id="deliveryTiers" class="delivery-tiers"></div>
+          <p class="field-hint">Exemplo: até 1 km = R$ 3,00; até 2 km = R$ 4,00; até 3 km = R$ 5,00.</p>
+        </section>
+
+        <section class="delivery-settings-section">
+          <h3>Bairros sem entrega</h3>
+          <label>Um por linha ou separados por vírgula<textarea id="deliveryBlockedDistricts" rows="3" placeholder="Ex.: Bairro X, Bairro Y"></textarea></label>
+        </section>
+
+        <section class="delivery-settings-section">
+          <h3>Horários por dia</h3>
+          <div id="deliveryBusinessHours" class="delivery-hours"></div>
+        </section>
+
+        <div id="deliverySettingsMessage" class="form-message hidden"></div>
+        <div class="dialog-actions">
+          <button id="cancelDeliverySettings" class="secondary-button" type="button">Cancelar</button>
+          <button id="saveDeliverySettings" class="primary-button" type="submit">Salvar configurações</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
   <dialog id="qrDialog" class="app-dialog info-dialog qr-dialog"><div class="dialog-body"><span class="eyebrow">Compartilhar</span><h2 id="qrDialogTitle">QR Code</h2><img id="qrDialogImage" class="qr-dialog-image" alt="QR Code do cardápio"><p id="qrDialogLink" class="qr-dialog-link"></p><button id="closeQrDialog" class="primary-button" type="button">Fechar</button></div></dialog>
   <dialog id="adminIosInstallDialog" class="app-dialog info-dialog pwa-ios-dialog"><div class="dialog-body"><span class="eyebrow">Instalar no iPhone</span><h2>Adicionar Cantinho Admin</h2><p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><button id="closeAdminIosInstall" class="primary-button" type="button">Entendi</button></div></dialog>
   <div id="toastRegion" class="toast-region" aria-live="polite"></div>
@@ -309,7 +363,7 @@
   <script src="js/config.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/supabase-rest.js"></script>
-  <script src="js/admin.js?v=23"></script>
-  <script src="js/pwa-admin.js?v=23"></script>
+  <script src="js/admin.js?v=24"></script>
+  <script src="js/pwa-admin.js?v=24"></script>
 </body>
 </html>

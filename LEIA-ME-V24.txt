@@ -1,0 +1,16 @@
+CANTINHO DO PETISCO — V24
+
+NOVIDADE PRINCIPAL
+Configurações do Delivery ficam no menu oculto do Admin > Configurações do Delivery.
+O admin pode alterar: delivery ativo, distância máxima, taxas por faixa, pedido mínimo, entrega grátis por valor, bairros bloqueados, tempo estimado e horários.
+
+ORIGEM FIXA DO COMÉRCIO
+Latitude: -23.055199
+Longitude: -46.3526171
+
+PARA ATIVAR V24
+1. Execute EXECUTAR_NO_SUPABASE_V24.sql UMA VEZ no SQL Editor.
+2. Rode ATUALIZAR_EDGE_FUNCTION_V24.bat para republicar calc-delivery.
+3. Publique todo o conteúdo desta pasta no repositório GitHub Pages.
+
+A ORS_API_KEY continua somente nos Secrets do Supabase e não volta para o GitHub.

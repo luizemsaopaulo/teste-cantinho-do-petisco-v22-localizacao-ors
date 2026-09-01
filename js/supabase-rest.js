@@ -485,6 +485,43 @@
       if (/^https?:\/\//i.test(path)) return path;
       return `${C.SUPABASE_URL}/storage/v1/object/public/${C.STORAGE_BUCKET}/${String(path).split('/').map(encodeURIComponent).join('/')}`;
     }
+
+    async getDeliverySettings() {
+      if (C.DEMO_MODE) {
+        window.MOCK_DELIVERY_SETTINGS ||= {
+          id: 1, enabled: true, enforce_business_hours: false, max_distance_km: 3, minimum_order_value: null, free_delivery_over: null,
+          estimated_minutes_min: 30, estimated_minutes_max: 50, blocked_districts: [],
+          tiers: [{ up_to_km: 3, fee: 5 }],
+          business_hours: {
+            '0': { enabled: true, open: '11:00', close: '22:00' }, '1': { enabled: true, open: '11:00', close: '22:00' },
+            '2': { enabled: true, open: '11:00', close: '22:00' }, '3': { enabled: true, open: '11:00', close: '22:00' },
+            '4': { enabled: true, open: '11:00', close: '22:00' }, '5': { enabled: true, open: '11:00', close: '22:00' },
+            '6': { enabled: true, open: '11:00', close: '22:00' }
+          }
+        };
+        return structuredClone(window.MOCK_DELIVERY_SETTINGS);
+      }
+      const session = await this.ensureSession();
+      if (!session) throw new Error('Sessão expirada.');
+      const rows = await this.request('/rest/v1/delivery_settings?id=eq.1&select=*', { headers: this.baseHeaders(session.access_token) });
+      return rows?.[0] || null;
+    }
+
+    async saveDeliverySettings(settings) {
+      const session = await this.ensureSession();
+      if (!session) throw new Error('Sessão expirada.');
+      const body = { ...settings, id: 1, updated_at: new Date().toISOString() };
+      if (C.DEMO_MODE) { window.MOCK_DELIVERY_SETTINGS = structuredClone(body); return structuredClone(body); }
+      const rows = await this.request('/rest/v1/delivery_settings?id=eq.1', {
+        method: 'PATCH', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body)
+      });
+      if (rows?.[0]) return rows[0];
+      const inserted = await this.request('/rest/v1/delivery_settings', {
+        method: 'POST', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body)
+      });
+      return inserted?.[0] || null;
+    }
+
   }
 
   window.supabaseRest = new SupabaseRest();

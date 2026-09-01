@@ -461,3 +461,23 @@ body.admin-tools-open{overflow:hidden}
 .delivery-or{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.72rem;margin:13px 0 2px}.delivery-or::before,.delivery-or::after{content:"";height:1px;background:var(--line);flex:1}.delivery-or span{white-space:nowrap}
 .delivery-address-button{margin-top:2px}.delivery-status{margin:12px 0 0;padding:10px 12px;border-radius:10px;font-size:.78rem;font-weight:700;line-height:1.45}.delivery-status.info{background:#f4f1ed;color:#625650}.delivery-status.loading{background:#edf4fb;color:#315b80}.delivery-status.success{background:#e7f4ec;color:#1f6545}.delivery-status.error{background:#fae9e9;color:#8d3030}.delivery-result{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.delivery-result>span{background:var(--soft);border-radius:10px;padding:10px;text-align:center}.delivery-result small{display:block;color:var(--muted);font-size:.65rem}.delivery-result strong{display:block;margin-top:3px;font-size:.84rem}.delivery-ready{border-color:#b9dcc8}.delivery-outside,.delivery-error{border-color:#e6baba}.whatsapp-button:disabled{opacity:.55;cursor:not-allowed;filter:grayscale(.15)}
 @media(max-width:520px){.delivery-location-head{align-items:center}.delivery-location-head small{max-width:210px}.delivery-result{grid-template-columns:1fr 1fr}.delivery-result>span:last-child{grid-column:1/-1}}
+
+
+/* V24 — Configurações do Delivery no menu oculto do Admin */
+.delivery-settings-dialog{width:min(920px,calc(100vw - 24px));max-height:min(92vh,980px)}
+.delivery-settings-dialog .dialog-body{max-height:86vh;overflow:auto}
+.delivery-settings-form h3{margin:0 0 8px;font-size:1.05rem}
+.delivery-settings-section{padding:16px 0;border-top:1px solid var(--line,#e7e1db)}
+.delivery-settings-section:first-of-type{border-top:0}
+.delivery-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.delivery-settings-grid label,.delivery-settings-section>label{display:grid;gap:6px;font-weight:700}
+.delivery-settings-grid input,.delivery-settings-section textarea,.delivery-tier-row input,.delivery-hour-row input[type=time]{width:100%;box-sizing:border-box;border:1px solid #d9d1ca;border-radius:12px;padding:11px 12px;background:#fff;color:inherit;font:inherit}
+.admin-check-row{display:flex!important;align-items:flex-start;gap:10px;margin:8px 0;font-weight:400!important}
+.admin-check-row input{margin-top:4px;width:18px;height:18px;flex:0 0 auto}
+.admin-check-row span{display:grid;gap:2px}.admin-check-row small{font-weight:400;color:var(--muted,#6f6861)}
+.delivery-settings-section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px}.delivery-settings-section-head p{margin:3px 0 0;color:var(--muted,#6f6861)}
+.delivery-tiers{display:grid;gap:8px}.delivery-tier-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:end;padding:10px;border:1px solid #ece5df;border-radius:14px;background:#faf8f6}.delivery-tier-row label{display:grid;gap:5px;font-size:.9rem;font-weight:700}.delivery-tier-remove{min-height:44px}
+.delivery-hours{display:grid;gap:8px}.delivery-hour-row{display:grid;grid-template-columns:145px 1fr 1fr;gap:10px;align-items:center;padding:9px 10px;border:1px solid #ece5df;border-radius:12px}.delivery-hour-day{display:flex;align-items:center;gap:8px;font-weight:700}.delivery-hour-day input{width:18px;height:18px}.delivery-hour-row label{display:grid;gap:4px;font-size:.82rem;color:var(--muted,#6f6861)}
+.delivery-coordinate-note,.field-hint{margin:9px 0 0;color:var(--muted,#6f6861);font-size:.9rem}
+.dialog-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:12px;position:sticky;bottom:-1px;background:linear-gradient(to bottom,rgba(255,255,255,.92),#fff 22%);padding-bottom:2px}
+@media(max-width:680px){.delivery-settings-grid{grid-template-columns:1fr}.delivery-settings-section-head{align-items:flex-start;flex-direction:column}.delivery-tier-row{grid-template-columns:1fr 1fr}.delivery-tier-remove{grid-column:1/-1}.delivery-hour-row{grid-template-columns:1fr 1fr}.delivery-hour-day{grid-column:1/-1}.dialog-actions{flex-direction:column-reverse}.dialog-actions button{width:100%}}

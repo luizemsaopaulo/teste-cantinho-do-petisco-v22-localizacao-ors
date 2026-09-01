@@ -1,0 +1,80 @@
+CANTINHO DO PETISCO — DEPURAÇÃO V24
+======================================
+
+RESULTADO ESTRUTURAL: 58/58 PASS
+RESULTADO CHROMIUM: 13/13 PASS
+
+PASS — menu hidden contains delivery settings
+PASS — admin dialog exists
+PASS — admin supports delivery on/off
+PASS — admin supports business hours
+PASS — admin supports distance tiers
+PASS — admin supports min order
+PASS — admin supports free delivery threshold
+PASS — admin supports blocked districts
+PASS — admin supports ETA
+PASS — Supabase REST get/save settings
+PASS — SQL creates delivery_settings
+PASS — SQL RLS admin update
+PASS — Edge fixed restaurant latitude
+PASS — Edge fixed restaurant longitude
+PASS — Edge no restaurant geocoding
+PASS — Edge reads settings table
+PASS — Edge supports distance tiers
+PASS — Edge supports blocked districts
+PASS — Edge supports opening hours
+PASS — Edge supports minimum order
+PASS — Edge supports free threshold
+PASS — Frontend fee comes from settings, not config constants
+PASS — Frontend sends subtotal
+PASS — Frontend updates free/min on cart changes
+PASS — ETA is displayed from admin settings
+PASS — ORS key remains secret env only
+PASS — No obvious JWT ORS token in project
+PASS — service worker cache is V24
+PASS — QR V24 delivery exists
+PASS — QR V24 restaurant exists
+PASS — index.html: local ref manifest.webmanifest
+PASS — index.html: local ref assets/icon-client-192.png
+PASS — index.html: local ref css/styles.css
+PASS — index.html: local ref js/config.js
+PASS — index.html: local ref js/mock-data.js
+PASS — index.html: local ref js/supabase-rest.js
+PASS — index.html: local ref js/delivery.js
+PASS — index.html: local ref js/app.js
+PASS — index.html: local ref js/pwa-client.js
+PASS — restaurante.html: local ref manifest.webmanifest
+PASS — restaurante.html: local ref assets/icon-client-192.png
+PASS — restaurante.html: local ref css/styles.css
+PASS — restaurante.html: local ref js/config.js
+PASS — restaurante.html: local ref js/mock-data.js
+PASS — restaurante.html: local ref js/supabase-rest.js
+PASS — restaurante.html: local ref js/delivery.js
+PASS — restaurante.html: local ref js/app.js
+PASS — restaurante.html: local ref js/pwa-client.js
+PASS — admin.html: local ref manifest-admin.webmanifest
+PASS — admin.html: local ref assets/icon-admin-192.png
+PASS — admin.html: local ref css/styles.css
+PASS — admin.html: local ref index.html
+PASS — admin.html: local ref js/config.js
+PASS — admin.html: local ref js/mock-data.js
+PASS — admin.html: local ref js/supabase-rest.js
+PASS — admin.html: local ref js/admin.js
+PASS — admin.html: local ref js/pwa-admin.js
+PASS — Edge TypeScript has no parse errors
+
+CHROMIUM
+--------
+PASS — login Admin em modo demonstração
+PASS — menu oculto abre
+PASS — Configurações do Delivery abre no menu
+PASS — adiciona/salva faixas de distância
+PASS — pedido mínimo bloqueia
+PASS — ao atingir mínimo libera cálculo
+PASS — 2,20 km usa faixa R$ 5,00
+PASS — distância aparece
+PASS — entrega grátis zera taxa ao atingir valor
+
+OBSERVAÇÃO
+----------
+No ambiente de teste o Chromium não pode navegar para localhost/file por política do contêiner. A interface foi carregada por set_content com os mesmos HTML/CSS/JS e a chamada à Edge Function foi interceptada com o mesmo contrato JSON esperado. O deploy real da V24 depende de executar o SQL e republicar a Edge Function no Supabase.

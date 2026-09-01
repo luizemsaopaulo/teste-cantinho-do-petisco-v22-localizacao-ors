@@ -1,4 +1,4 @@
-project_id = "cantinho-do-petisco-v23"
+project_id = "cantinho-do-petisco-v24"
 
 [functions.calc-delivery]
 verify_jwt = false

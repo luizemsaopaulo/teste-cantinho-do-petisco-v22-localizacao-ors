@@ -10,9 +10,6 @@ window.APP_CONFIG = Object.freeze({
   TIME_ZONE: 'America/Sao_Paulo',
   DELIVERY_HIDDEN_CATEGORY_SLUGS: Object.freeze(['pratos-executivos', 'cervejas', 'bebidas-alcoolicas']),
 
-  // V23 — a chave do OpenRouteService NÃO fica no frontend.
-  // O navegador chama a Edge Function do Supabase; só a função conhece ORS_API_KEY.
-  DELIVERY_FUNCTION_NAME: 'calc-delivery',
-  DELIVERY_MAX_KM: 3,
-  DELIVERY_FEE: 5
+  // V24 — chave ORS oculta na Edge Function; regras de taxa/distância vêm do Supabase.
+  DELIVERY_FUNCTION_NAME: 'calc-delivery'
 });
