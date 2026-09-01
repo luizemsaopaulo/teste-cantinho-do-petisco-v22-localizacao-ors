@@ -1,0 +1,39 @@
+CANTINHO DO PETISCO — V23 — CHAVE ORS OCULTA
+================================================
+
+Esta versão mantém a localização/taxa da V22 e remove a chave do OpenRouteService do JavaScript público.
+
+ARQUITETURA
+-----------
+Cliente (GitHub Pages)
+  -> navigator.geolocation OU endereço digitado
+  -> Supabase Edge Function: calc-delivery
+  -> OpenRouteService / HeiGIT
+  -> distância real de carro + tempo
+  -> site calcula/libera taxa de entrega
+
+REGRAS MANTIDAS
+---------------
+- Entrega: até 3 km
+- Taxa: R$ 5,00
+- Acima de 3 km: entrega bloqueada
+- Retirada: continua disponível
+- Distância e taxa entram no total e no pedido do WhatsApp
+
+SEGURANÇA
+---------
+- NÃO existe ORS_API_KEY em js/config.js.
+- NÃO existe chave ORS em HTML, CSS, JS, service worker ou manifest.
+- ORS_API_KEY deve ser cadastrada somente em Supabase > Edge Function Secrets.
+- A chave publishable do Supabase permanece no frontend porque ela é uma chave pública própria para uso no navegador.
+- A Edge Function aceita somente o site luizemsaopaulo.github.io (e localhost para desenvolvimento), valida a publishable key e não permite rotas genéricas entre dois pontos arbitrários.
+
+ANTES DE PUBLICAR
+-----------------
+1. Execute CONFIGURAR_SUPABASE_V23.bat (recomendado) OU siga CONFIGURAR_PELO_DASHBOARD_V23.txt.
+2. Informe sua chave ORS quando solicitado. Ela NÃO será gravada no projeto.
+3. Só depois envie os arquivos do site ao GitHub Pages.
+
+IMPORTANTE
+----------
+A Edge Function precisa estar implantada e o Secret ORS_API_KEY precisa existir no Supabase. Sem isso, o cardápio continua abrindo, mas o cálculo de entrega mostrará que o serviço ainda não foi ativado.

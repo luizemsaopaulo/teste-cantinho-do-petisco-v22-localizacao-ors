@@ -1,0 +1,4 @@
+project_id = "cantinho-do-petisco-v23"
+
+[functions.calc-delivery]
+verify_jwt = false

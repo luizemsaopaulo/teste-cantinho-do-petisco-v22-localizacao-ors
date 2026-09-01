@@ -1,0 +1,25 @@
+CANTINHO DO PETISCO — V23 — ANTES DE PUBLICAR
+==============================================
+
+OBRIGATÓRIO UMA ÚNICA VEZ:
+- Implantar a Edge Function calc-delivery no Supabase.
+- Criar o Secret ORS_API_KEY no Supabase com a chave do OpenRouteService.
+
+MÉTODO MAIS FÁCIL:
+- Dê duplo clique em CONFIGURAR_SUPABASE_V23.bat.
+- O script usa o Supabase CLI via npx, abre o login e pede a chave ORS sem colocá-la no projeto.
+- Requer Node.js 20 ou superior.
+
+SEM NODE/CLI:
+- Siga CONFIGURAR_PELO_DASHBOARD_V23.txt.
+
+DEPOIS:
+1. Publique todo o conteúdo desta pasta no repositório cantinho-do-petisco-v14.
+2. Acesse o Delivery com ?v=23 para furar cache antigo.
+3. Faça um pedido teste escolhendo Entrega e use "Usar minha localização".
+
+NÃO FAÇA:
+- não cole a ORS_API_KEY em js/config.js;
+- não crie arquivo .env dentro do repositório publicado;
+- não coloque a chave em GitHub Actions sem usar GitHub Secrets;
+- não envie a chave em screenshots públicos.

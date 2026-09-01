@@ -1,0 +1,16 @@
+CANTINHO DO PETISCO — ALTERAÇÕES V23
+=====================================
+
+1. Removida completamente a chave OpenRouteService do frontend.
+2. js/config.js não possui segredo ORS.
+3. js/delivery.js chama apenas a Supabase Edge Function calc-delivery.
+4. Edge Function faz geocoding, reverse geocoding e Directions V2 no servidor.
+5. ORS_API_KEY é lida somente de Deno.env.get('ORS_API_KEY').
+6. CORS restrito ao GitHub Pages do projeto e localhost de desenvolvimento.
+7. A Edge Function valida a publishable key do projeto.
+8. Coordenadas recebidas são limitadas a uma área ampla de São Paulo para impedir uso como roteador mundial genérico.
+9. A rota sempre usa o Cantinho do Petisco como origem; o cliente não pode escolher origem e destino arbitrários.
+10. Fluxo GPS, endereço manual, limite de 3 km, taxa de R$ 5, total e WhatsApp foram mantidos.
+11. Cache/PWA atualizado para V23.
+12. QR Codes atualizados para ?v=23.
+13. Incluídos instaladores/roteiros para implantar a Edge Function sem colocar a chave no repositório.

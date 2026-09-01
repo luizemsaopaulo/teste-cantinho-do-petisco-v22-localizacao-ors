@@ -1,0 +1,32 @@
+CANTINHO DO PETISCO — DEPURAÇÃO CHROMIUM V23
+================================================
+
+RESULTADO: 23/23 PASS
+
+PASS — DESKTOP: cardápio carregou
+PASS — DESKTOP: item adicionado ao carrinho
+PASS — DESKTOP: distância recebida pela Edge Function
+PASS — DESKTOP: taxa R$ 5,00 exibida
+PASS — DESKTOP: distância exibida
+PASS — DESKTOP: total atualizado
+PASS — DESKTOP: sem erros JavaScript
+PASS — MOBILE: GPS calculado pela Edge Function
+PASS — MOBILE: endereço preenchido pelo retorno seguro
+PASS — MOBILE: WhatsApp inclui taxa
+PASS — MOBILE: WhatsApp inclui distância
+PASS — MOBILE: sem erros JavaScript
+PASS — FORA: entrega bloqueada acima de 3 km
+PASS — FORA: aviso de limite exibido
+PASS — FORA: sem erros JavaScript
+PASS — SEGURANÇA: variável antiga da chave removida
+PASS — SEGURANÇA: chave ORS real não existe no pacote
+PASS — SEGURANÇA: frontend não chama HeiGIT diretamente
+PASS — SEGURANÇA: Edge Function lê ORS_API_KEY dos Secrets
+PASS — SEGURANÇA: frontend chama Supabase Edge Function
+PASS — DEPLOY: config da Edge Function incluída
+PASS — CACHE: index atualizado para v23
+PASS — CACHE: service worker V23
+
+OBSERVAÇÃO
+-----------
+A chamada à Edge Function foi interceptada no Chromium e respondida com o mesmo contrato JSON esperado da função real. Isso permite testar a interface, GPS, endereço, limite, taxa, total e WhatsApp sem expor nem usar a ORS_API_KEY. A implantação real da função e do Secret depende do Supabase do proprietário.

@@ -10,13 +10,9 @@ window.APP_CONFIG = Object.freeze({
   TIME_ZONE: 'America/Sao_Paulo',
   DELIVERY_HIDDEN_CATEGORY_SLUGS: Object.freeze(['pratos-executivos', 'cervejas', 'bebidas-alcoolicas']),
 
-  // V22 — localização e taxa de entrega com OpenRouteService/HeiGIT.
-  // A posição GPS é obtida pelo navegador. A API calcula a rota real de carro.
-  OPENROUTESERVICE_API_KEY: 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjFkNDQzYTRhMzI4YTQ2YjVhYTcyNTk2MzlmNzY1MmE4IiwiaCI6Im11cm11cjY0In0=',
-  OPENROUTESERVICE_BASE_URL: 'https://api.heigit.org',
-  RESTAURANT_ADDRESS: 'Avenida Joao de Moraes Goes, 255, Box 06, Centro, Piracaia - SP, 12970-000, Brasil',
-  RESTAURANT_CITY: 'Piracaia',
-  RESTAURANT_STATE: 'SP',
+  // V23 — a chave do OpenRouteService NÃO fica no frontend.
+  // O navegador chama a Edge Function do Supabase; só a função conhece ORS_API_KEY.
+  DELIVERY_FUNCTION_NAME: 'calc-delivery',
   DELIVERY_MAX_KM: 3,
   DELIVERY_FEE: 5
 });

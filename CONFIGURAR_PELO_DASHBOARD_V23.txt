@@ -1,0 +1,32 @@
+CONFIGURAR V23 PELO SUPABASE DASHBOARD — SEM CLI
+=================================================
+
+PROJETO
+https://supabase.com/dashboard/project/ubhxzrfhokzkdndjlrwt
+
+PASSO 1 — SECRET
+1. Entre no projeto.
+2. Abra Edge Functions.
+3. Abra Secrets / Secrets Management.
+4. Crie:
+   Nome: ORS_API_KEY
+   Valor: sua chave do OpenRouteService/HeiGIT
+5. Salve.
+
+PASSO 2 — EDGE FUNCTION
+1. Edge Functions > Deploy a new function > Via Editor.
+2. Nome: calc-delivery
+3. Abra este arquivo do pacote:
+   supabase/functions/calc-delivery/index.ts
+4. Copie TODO o conteúdo e substitua o código do editor.
+5. Desative a verificação JWT para esta função (verify_jwt = false / opção equivalente no painel).
+   Isso é necessário porque o site usa a chave publishable nova; a própria função valida o header apikey.
+6. Clique em Deploy function.
+
+PASSO 3 — TESTE
+1. Publique a V23 no GitHub Pages.
+2. Abra:
+   https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/?v=23
+3. Adicione um produto, abra Finalizar pedido, escolha Entrega e teste a localização.
+
+A CHAVE ORS NÃO DEVE SER COLOCADA EM NENHUM ARQUIVO DO GITHUB.

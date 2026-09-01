@@ -1,0 +1,17 @@
+CANTINHO DO PETISCO — LINKS V23
+================================
+
+DELIVERY
+https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/?v=23
+
+RESTAURANTE
+https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/restaurante.html?v=23
+
+ADMIN
+https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/admin.html?v=23
+
+SUPABASE — EDGE FUNCTIONS
+https://supabase.com/dashboard/project/ubhxzrfhokzkdndjlrwt/functions
+
+SUPABASE — SECRETS DE EDGE FUNCTIONS
+Abra o projeto acima > Edge Functions > Secrets.

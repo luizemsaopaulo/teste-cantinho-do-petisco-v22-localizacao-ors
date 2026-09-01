@@ -1,0 +1,5 @@
+-- CANTINHO DO PETISCO — V23
+-- Esta versão NÃO exige alteração SQL no banco de dados.
+-- A mudança necessária é implantar a Edge Function calc-delivery
+-- e cadastrar ORS_API_KEY em Edge Function Secrets.
+-- Veja CONFIGURAR_SUPABASE_V23.bat ou CONFIGURAR_PELO_DASHBOARD_V23.txt.

@@ -454,7 +454,7 @@ body.admin-tools-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.required-size-pulse{animation:none!important}}
 
 
-/* V22 — localização e taxa de entrega */
+/* V23 — localização e taxa de entrega */
 .delivery-location-card{margin:14px 0;padding:16px;border:1px solid #ead8c7;border-radius:16px;background:#fff;box-shadow:0 8px 22px rgba(78,48,34,.06)}
 .delivery-location-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.delivery-location-head strong{display:block;color:var(--ink);font-size:.98rem}.delivery-location-head small{display:block;margin-top:3px;color:var(--muted);font-weight:500;line-height:1.35}.delivery-limit{white-space:nowrap;background:#f8ead8;color:#7a5124;border:1px solid #ead0ad;border-radius:999px;padding:5px 9px;font-size:.7rem;font-weight:850}
 .location-primary-button,.delivery-address-button{width:100%;min-height:46px;border-radius:12px;font-weight:800;cursor:pointer}.location-primary-button{border:0;background:var(--wine);color:#fff;padding:12px 14px}.location-primary-button:hover{filter:brightness(.94)}.location-primary-button:disabled,.delivery-address-button:disabled{opacity:.55;cursor:wait}
