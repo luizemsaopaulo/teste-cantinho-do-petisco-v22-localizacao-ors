@@ -1,0 +1,156 @@
+{
+  "passed": 30,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Desktop: cardápio carregou",
+      "ok": true,
+      "detail": "55 cards"
+    },
+    {
+      "name": "Desktop: cliente adicionou produto pelo card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Desktop: carrinho e checkout abriram por clique",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Pagamento: métodos configurados aparecem",
+      "ok": true,
+      "detail": "Selecione, Pix, Cartão de crédito, Cartão de débito, Dinheiro"
+    },
+    {
+      "name": "Pix: exige escolher InfinitePay ou Pix direto",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Pix direto: dados, cópia e WhatsApp corretos e sem marcar pago",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "InfinitePay Pix: total dinâmico e proteção contra abertura duplicada",
+      "ok": true,
+      "detail": "https://checkout.infinitepay.com.br/cantinho-demo?qa=1&amount=1400"
+    },
+    {
+      "name": "Crédito: direcionado à InfinitePay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Débito: somente maquininha na retirada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Entrega: distância/taxa/total funcionam; duração 14 min ficou apenas interna",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Entrega: alterar endereço invalida rota antiga",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Entrega: 4,5 km bloqueada pelo limite de 3 km",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Desktop: console/page errors",
+      "ok": true,
+      "detail": "0 erros"
+    },
+    {
+      "name": "Mobile 390x844: GPS, entrega e Pix renderizam sem tempo/ETA",
+      "ok": true,
+      "detail": "0 erros JS"
+    },
+    {
+      "name": "Localização negada: cliente recebe fallback para endereço e não finaliza sem rota",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Pedido com vários itens, quantidade e adicional: total R$ 54,99 chega à InfinitePay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Erro InfinitePay: carrinho preservado e botão fica disponível para tentar novamente",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM: seção Pagamentos abre e carrega configuração",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM: pagamentos persistem e InfiniteTag é normalizada sem $",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM: configuração salva reaparece ao reabrir",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM: campos públicos de ETA removidos das configurações",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM: console/page errors",
+      "ok": true,
+      "detail": "0 erros"
+    },
+    {
+      "name": "Pagamento: nenhuma forma ativa bloqueia finalização com mensagem amigável",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Código público sem rótulo Tempo estimado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp sem Prazo estimado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "PWA cliente usa cache-bust v25",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "PWA ADM usa links/cache-bust v25",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Edge pagamento recalcula total no servidor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Edge pagamento rejeita opção duplicada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SQL de pagamentos habilita RLS",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+CANTINHO DO PETISCO — V25 — PAGAMENTOS + LOCALIZAÇÃO
+=====================================================
+
+Esta versão preserva o cálculo de distância/taxa de entrega e remove da interface pública qualquer tempo/ETA de rota.
+
+PAGAMENTOS
+- Pix: InfinitePay online OU Pix direto, conforme ativado no ADM.
+- Crédito: InfinitePay online.
+- Débito: maquininha na entrega/retirada.
+- Dinheiro: preservado e configurável no ADM.
+
+CONFIGURAÇÃO OBRIGATÓRIA
+1) Supabase > SQL Editor: execute EXECUTAR_NO_SUPABASE_V25.sql
+2) Publique as Edge Functions: ATUALIZAR_EDGE_FUNCTION_V25.bat
+3) InfinitePay: habilite o Checkout Integrado na sua conta.
+4) ADM > Pagamentos: informe InfiniteTag, Pix e meios aceitos.
+
+O site não guarda segredo/token da InfinitePay no navegador. O total do checkout é recalculado na Edge Function antes de gerar o link.
+
+DEPURAÇÃO
+Veja DEPURACAO_CHROMIUM_V25_FINAL.txt e resultado_chromium_v25.json.
+Resultado final automatizado no Chromium: 30/30 PASS.

@@ -1,4 +1,4 @@
-const CACHE_NAME='cantinho-v24';
+const CACHE_NAME='cantinho-v25';
 const CORE=['./','./index.html','./restaurante.html','./admin.html','./css/styles.css','./js/config.js','./js/mock-data.js','./js/supabase-rest.js','./js/delivery.js','./js/app.js','./js/admin.js','./js/pwa-client.js','./js/pwa-admin.js','./manifest.webmanifest','./manifest-admin.webmanifest','./assets/icon-client-192.png','./assets/icon-client-512.png','./assets/icon-admin-192.png','./assets/icon-admin-512.png','./assets/qr-delivery-v24.png','./assets/qr-restaurante-v24.png','./assets/whatsapp-preview-v2.jpg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

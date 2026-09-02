@@ -11,5 +11,6 @@ window.APP_CONFIG = Object.freeze({
   DELIVERY_HIDDEN_CATEGORY_SLUGS: Object.freeze(['pratos-executivos', 'cervejas', 'bebidas-alcoolicas']),
 
   // V24 — chave ORS oculta na Edge Function; regras de taxa/distância vêm do Supabase.
-  DELIVERY_FUNCTION_NAME: 'calc-delivery'
+  DELIVERY_FUNCTION_NAME: 'calc-delivery',
+  PAYMENT_FUNCTION_NAME: 'create-payment'
 });

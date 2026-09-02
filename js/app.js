@@ -8,10 +8,10 @@
   const HIDDEN_CATEGORY_SLUGS=new Set(MENU_MODE==='delivery'?(C.DELIVERY_HIDDEN_CATEGORY_SLUGS||[]):[]);
   const CART_KEY=`cantinho_petisco_cart_${MENU_MODE}_v4`;
   const SIZE_ORDER={P:1,M:2,G:3};
-  const state={allCategories:[],categories:[],products:[],specials:[],optionGroups:[],productOptions:[],cart:[],query:'',category:'all',selected:null,selectedQty:1,selectedVariants:[],selectedOptions:new Map(),selectedOptionQty:new Map(),specialOverride:null,groupMap:new Map(),validationPrompt:false};
+  const state={allCategories:[],categories:[],products:[],specials:[],optionGroups:[],productOptions:[],cart:[],query:'',category:'all',selected:null,selectedQty:1,selectedVariants:[],selectedOptions:new Map(),selectedOptionQty:new Map(),specialOverride:null,groupMap:new Map(),validationPrompt:false,paymentSettings:null,paymentBusy:false};
   const $=s=>document.querySelector(s);
   const els={
-    status:$('#menuStatus'),root:$('#menuRoot'),nav:$('#categoryNav'),search:$('#searchInput'),clear:$('#clearSearch'),specialSection:$('#dailySpecialSection'),specialCard:$('#dailySpecialCard'),overlay:$('#overlay'),drawer:$('#cartDrawer'),cartItems:$('#cartItems'),cartEmpty:$('#cartEmpty'),cartFooter:$('#cartFooter'),cartTotal:$('#cartTotal'),cartCountTop:$('#cartCountTop'),cartCountMobile:$('#cartCountMobile'),cartTotalMobile:$('#cartTotalMobile'),mobileCartBar:$('#mobileCartBar'),itemDialog:$('#itemDialog'),itemForm:$('#itemForm'),itemVisual:$('#itemDialogVisual'),itemCategory:$('#itemDialogCategory'),itemName:$('#itemDialogName'),itemDesc:$('#itemDialogDescription'),itemPrice:$('#itemDialogPrice'),itemAvailability:$('#itemAvailability'),itemNote:$('#itemNote'),itemNoteWrap:$('#itemNoteWrap'),itemOptions:$('#itemOptions'),itemQty:$('#itemQty'),addItem:$('#addItemBtn'),sizePickerWrap:$('#sizePickerWrap'),sizePicker:$('#sizePicker'),selectedSizeLabel:$('#selectedSizeLabel'),sizeRequiredMessage:$('#sizeRequiredMessage'),checkout:$('#checkoutDialog'),checkoutForm:$('#checkoutForm'),checkoutTotal:$('#checkoutTotal'),addressFields:$('#addressFields'),address:$('#customerAddress'),district:$('#customerDistrict'),payment:$('#paymentMethod'),changeField:$('#changeField'),changeFor:$('#changeFor'),privacy:$('#privacyDialog'),toast:$('#toastRegion')
+    status:$('#menuStatus'),root:$('#menuRoot'),nav:$('#categoryNav'),search:$('#searchInput'),clear:$('#clearSearch'),specialSection:$('#dailySpecialSection'),specialCard:$('#dailySpecialCard'),overlay:$('#overlay'),drawer:$('#cartDrawer'),cartItems:$('#cartItems'),cartEmpty:$('#cartEmpty'),cartFooter:$('#cartFooter'),cartTotal:$('#cartTotal'),cartCountTop:$('#cartCountTop'),cartCountMobile:$('#cartCountMobile'),cartTotalMobile:$('#cartTotalMobile'),mobileCartBar:$('#mobileCartBar'),itemDialog:$('#itemDialog'),itemForm:$('#itemForm'),itemVisual:$('#itemDialogVisual'),itemCategory:$('#itemDialogCategory'),itemName:$('#itemDialogName'),itemDesc:$('#itemDialogDescription'),itemPrice:$('#itemDialogPrice'),itemAvailability:$('#itemAvailability'),itemNote:$('#itemNote'),itemNoteWrap:$('#itemNoteWrap'),itemOptions:$('#itemOptions'),itemQty:$('#itemQty'),addItem:$('#addItemBtn'),sizePickerWrap:$('#sizePickerWrap'),sizePicker:$('#sizePicker'),selectedSizeLabel:$('#selectedSizeLabel'),sizeRequiredMessage:$('#sizeRequiredMessage'),checkout:$('#checkoutDialog'),checkoutForm:$('#checkoutForm'),checkoutTotal:$('#checkoutTotal'),addressFields:$('#addressFields'),address:$('#customerAddress'),district:$('#customerDistrict'),payment:$('#paymentMethod'),paymentSuboptions:$('#paymentSuboptions'),changeField:$('#changeField'),changeFor:$('#changeFor'),privacy:$('#privacyDialog'),paymentDialog:$('#paymentDialog'),paymentDialogTitle:$('#paymentDialogTitle'),paymentDialogDescription:$('#paymentDialogDescription'),paymentDialogDetails:$('#paymentDialogDetails'),paymentDialogStatus:$('#paymentDialogStatus'),paymentPrimaryBtn:$('#paymentPrimaryBtn'),paymentSecondaryBtn:$('#paymentSecondaryBtn'),toast:$('#toastRegion')
   };
   const escapeHtml=(v='')=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const normalize=(s='')=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
@@ -203,61 +203,139 @@
   function removeLine(i){state.cart.splice(i,1);saveCart();renderCart();}
   function openCart(){els.drawer.classList.add('open');els.drawer.setAttribute('aria-hidden','false');els.overlay.classList.remove('hidden');document.body.style.overflow='hidden';}
   function closeCart(){els.drawer.classList.remove('open');els.drawer.setAttribute('aria-hidden','true');els.overlay.classList.add('hidden');syncPageInteractionLock();}
+  function paymentSettingsReady(v){
+    const s={...api.paymentDefaults?.(),...(v||{})};
+    s.infinitepay_handle=String(s.infinitepay_handle||'').trim().replace(/^[$@]+/,'');
+    s.pix_key=String(s.pix_key||'').trim();
+    s.pix_receiver_name=String(s.pix_receiver_name||'').trim();
+    s.onlineReady=!!s.infinitepay_enabled&&!!s.infinitepay_handle;
+    s.pixDirectReady=!!s.pix_direct_enabled&&!!s.pix_key&&!!s.pix_receiver_name;
+    s.creditReady=!!s.credit_online_enabled&&s.onlineReady;
+    return s;
+  }
+  async function loadPaymentSettings(){
+    try{state.paymentSettings=paymentSettingsReady(await api.getPublicPaymentSettings());}
+    catch(e){state.paymentSettings=paymentSettingsReady({debit_machine_enabled:true,cash_enabled:true,_loadError:true});toast('Não foi possível carregar todas as formas de pagamento.','error');}
+    return state.paymentSettings;
+  }
+  function availablePaymentMethods(){
+    const s=state.paymentSettings||paymentSettingsReady({});const out=[];
+    if(s.onlineReady||s.pixDirectReady)out.push({value:'pix',label:'Pix'});
+    if(s.creditReady)out.push({value:'credit_card',label:'Cartão de crédito'});
+    if(s.debit_machine_enabled!==false)out.push({value:'debit_card',label:'Cartão de débito'});
+    if(s.cash_enabled!==false)out.push({value:'cash',label:'Dinheiro'});
+    return out;
+  }
+  function selectedPaymentChannel(){
+    const method=els.payment.value;
+    if(method==='pix')return document.querySelector('input[name="pixPaymentChannel"]:checked')?.value||'';
+    if(method==='credit_card')return'infinitepay';
+    if(method==='debit_card')return'debit_machine';
+    if(method==='cash')return'cash';
+    return'';
+  }
+  function paymentLabel(){
+    const method=els.payment.value,channel=selectedPaymentChannel(),type=document.querySelector('input[name="fulfillment"]:checked')?.value||'Retirada';
+    if(method==='pix'&&channel==='infinitepay')return'Pix — InfinitePay';
+    if(method==='pix'&&channel==='pix_direct')return`Pix direto — ${state.paymentSettings?.pix_key_type||'chave Pix'}`;
+    if(method==='credit_card')return'Cartão de crédito — InfinitePay';
+    if(method==='debit_card')return`Cartão de débito — maquininha na ${type==='Entrega'?'entrega':'retirada'}`;
+    if(method==='cash')return'Dinheiro';
+    return'';
+  }
+  function syncCheckoutButton(){
+    const b=$('#sendWhatsappBtn');if(!b)return;const method=els.payment.value,channel=selectedPaymentChannel();
+    if(!method){b.textContent='Escolha a forma de pagamento';return;}
+    if(method==='pix'&&!channel){b.textContent='Escolha como pagar o Pix';return;}
+    if(method==='pix'&&channel==='pix_direct'){b.textContent='Ver dados do Pix';return;}
+    if((method==='pix'&&channel==='infinitepay')||method==='credit_card'){b.textContent='Continuar para pagamento';return;}
+    b.textContent='Enviar pedido no WhatsApp';
+  }
+  function renderPaymentSuboptions(){
+    const box=els.paymentSuboptions;if(!box)return;const method=els.payment.value,s=state.paymentSettings||paymentSettingsReady({});box.innerHTML='';box.classList.add('hidden');els.changeField.classList.toggle('hidden',method!=='cash');
+    if(method==='pix'){
+      const choices=[];
+      if(s.onlineReady)choices.push(`<label class="payment-choice"><input type="radio" name="pixPaymentChannel" value="infinitepay"><span><strong>Pagar online pela InfinitePay</strong><small>O checkout da InfinitePay será aberto com o valor exato do pedido. Lá, escolha Pix.</small></span></label>`);
+      if(s.pixDirectReady)choices.push(`<label class="payment-choice"><input type="radio" name="pixPaymentChannel" value="pix_direct"><span><strong>Pix direto</strong><small>Copie a chave ${escapeHtml(s.pix_key_type||'Pix')} e pague o valor informado. O pedido não será marcado como pago automaticamente.</small></span></label>`);
+      box.innerHTML=`<fieldset><legend>Como deseja pagar o Pix?</legend><div class="payment-choice-list">${choices.join('')}</div></fieldset>`;box.classList.remove('hidden');const radios=[...box.querySelectorAll('input[name="pixPaymentChannel"]')];if(radios.length===1)radios[0].checked=true;radios.forEach(r=>r.addEventListener('change',syncCheckoutButton));
+    }else if(method==='credit_card'){
+      box.innerHTML='<p class="payment-method-note"><strong>Pagamento online pela InfinitePay.</strong> O checkout será gerado com o total do pedido. Na InfinitePay, escolha cartão de crédito.</p>';box.classList.remove('hidden');
+    }else if(method==='debit_card'){
+      const where=document.querySelector('input[name="fulfillment"]:checked')?.value==='Entrega'?'entrega':'retirada';box.innerHTML=`<p class="payment-method-note"><strong>Débito na maquininha.</strong> O pagamento será realizado presencialmente no momento da ${where}.</p>`;box.classList.remove('hidden');
+    }else if(method==='cash'){
+      box.innerHTML='<p class="payment-method-note">Pagamento em dinheiro no momento da entrega/retirada.</p>';box.classList.remove('hidden');
+    }
+    syncCheckoutButton();
+  }
+  function renderPaymentMethods(preferred=''){
+    const methods=availablePaymentMethods();
+    if(!methods.length){els.payment.innerHTML='<option value="">Nenhuma forma de pagamento disponível</option>';els.payment.disabled=true;els.paymentSuboptions.innerHTML='<p class="payment-method-note">No momento não há formas de pagamento disponíveis. Entre em contato com o estabelecimento.</p>';els.paymentSuboptions.classList.remove('hidden');$('#sendWhatsappBtn').disabled=true;syncCheckoutButton();return;}
+    els.payment.disabled=false;$('#sendWhatsappBtn').disabled=false;els.payment.innerHTML='<option value="">Selecione</option>'+methods.map(m=>`<option value="${m.value}">${m.label}</option>`).join('');
+    if(preferred&&methods.some(m=>m.value===preferred))els.payment.value=preferred;else if(methods.length===1)els.payment.value=methods[0].value;
+    renderPaymentSuboptions();
+  }
+  async function prepareCheckout(){
+    closeCart();els.checkoutTotal.textContent=money.format(orderTotal());els.payment.innerHTML='<option value="">Carregando formas de pagamento…</option>';els.payment.disabled=true;els.paymentSuboptions.classList.add('hidden');openAppDialog(els.checkout);
+    await loadPaymentSettings();renderPaymentMethods();
+  }
   function buildWhatsAppMessage(){
     const name=$('#customerName').value.trim();
     const type=document.querySelector('input[name="fulfillment"]:checked')?.value||'Retirada';
-    const payment=els.payment.value;
+    const payment=paymentLabel();
     const lines=['*PEDIDO:*'];
-
     state.cart.forEach(x=>{
       lines.push(`*${x.qty}x ${x.name}${x.size?` (${x.size})`:''}* — ${whatsappMoney(x.price*x.qty)}`);
       if(Array.isArray(x.options)&&x.options.length){const byGroup=new Map();x.options.forEach(o=>{if(!byGroup.has(o.group_name))byGroup.set(o.group_name,[]);const q=Math.max(1,Number(o.quantity)||1),extra=o.price_mode==='add'&&Number(o.price_value)>0?` (+${whatsappMoney(Number(o.price_value)*q)})`:'';byGroup.get(o.group_name).push(`${q>1?`${q}x `:''}${o.option_name}${extra}`);});for(const [group,opts] of byGroup)lines.push(`_${group}: ${opts.join(', ')}_`);}
       if(x.note)lines.push(`_Obs.: ${x.note}_`);
     });
-
     lines.push('',`*Total dos itens:* ${whatsappMoney(cartTotal())}`);
     if(type==='Entrega'){
-      const d=window.deliveryService?.getState?.()||{};
-      lines.push(`*Taxa de entrega:* ${whatsappMoney(deliveryFee())}`);
-      if(Number.isFinite(Number(d.distanceKm)))lines.push(`*Distância da entrega:* ${Number(d.distanceKm).toFixed(2).replace('.',',')} km`);const etaMin=Number(d.settings?.estimated_minutes_min),etaMax=Number(d.settings?.estimated_minutes_max);if(Number.isFinite(etaMin)&&etaMin>0){const eta=Number.isFinite(etaMax)&&etaMax>=etaMin?(etaMin===etaMax?`${Math.round(etaMin)} min`:`${Math.round(etaMin)}–${Math.round(etaMax)} min`):`${Math.round(etaMin)} min`;lines.push(`*Prazo estimado:* ${eta}`);}
-      lines.push(`*TOTAL:* ${whatsappMoney(orderTotal())}`);
-    }else{
-      lines.push(`*TOTAL:* ${whatsappMoney(cartTotal())}`);
-    }
+      const d=window.deliveryService?.getState?.()||{};lines.push(`*Taxa de entrega:* ${whatsappMoney(deliveryFee())}`);if(Number.isFinite(Number(d.distanceKm)))lines.push(`*Distância da entrega:* ${Number(d.distanceKm).toFixed(2).replace('.',',')} km`);lines.push(`*TOTAL:* ${whatsappMoney(orderTotal())}`);
+    }else lines.push(`*TOTAL:* ${whatsappMoney(cartTotal())}`);
     lines.push(`*Pagamento:* ${payment};`);
-
-    if(payment==='Dinheiro'&&els.changeFor.value.trim()){
-      lines.push(`*Troco para:* R$ ${els.changeFor.value.trim()}`);
-    }
-
-    const note=$('#orderNote').value.trim();
-    if(note)lines.push('',`*Observação geral:* ${note}`);
-
-    lines.push('');
-    if(type==='Entrega'){
-      lines.push('*DADOS PARA ENTREGA:*');
-      lines.push(`*Endereço:* ${els.address.value.trim()}`);
-      if(els.district.value.trim())lines.push(`*Bairro:* ${els.district.value.trim()}`);
-    }else{
-      lines.push('*RETIRADA NO LOCAL*');
-    }
-    lines.push(`*Nome do cliente:* ${name}`);
-    return lines.join('\n');
+    if(els.payment.value==='cash'&&els.changeFor.value.trim())lines.push(`*Troco para:* R$ ${els.changeFor.value.trim()}`);
+    const note=$('#orderNote').value.trim();if(note)lines.push('',`*Observação geral:* ${note}`);
+    lines.push('');if(type==='Entrega'){lines.push('*DADOS PARA ENTREGA:*');lines.push(`*Endereço:* ${els.address.value.trim()}`);if(els.district.value.trim())lines.push(`*Bairro:* ${els.district.value.trim()}`);}else lines.push('*RETIRADA NO LOCAL*');lines.push(`*Nome do cliente:* ${name}`);return lines.join('\n');
   }
-
   function sendToWhatsApp(){
-    const url=`https://wa.me/${C.WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage())}`;
-    window.__TEST_LAST_WHATSAPP_URL__=url;
-
-    // Em celulares, navegar na própria aba é muito mais confiável do que window.open,
-    // que pode ser bloqueado como popup e impedir a abertura do WhatsApp.
-    if(typeof window.__WHATSAPP_NAVIGATOR__==='function'){
-      window.__WHATSAPP_NAVIGATOR__(url);
-      return;
-    }
-    window.location.assign(url);
+    const url=`https://wa.me/${C.WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage())}`;window.__TEST_LAST_WHATSAPP_URL__=url;
+    if(typeof window.__WHATSAPP_NAVIGATOR__==='function'){window.__WHATSAPP_NAVIGATOR__(url);return;}window.location.assign(url);
   }
-  function initEvents(){[els.itemDialog,els.checkout,els.privacy].forEach(d=>d?.addEventListener('close',syncPageInteractionLock));els.search.addEventListener('input',()=>{state.query=els.search.value.trim();els.clear.classList.toggle('hidden',!state.query);renderMenu();});els.clear.addEventListener('click',()=>{els.search.value='';state.query='';els.clear.classList.add('hidden');renderMenu();els.search.focus();});$('#openCartTop').onclick=openCart;els.mobileCartBar.onclick=openCart;$('#closeCart').onclick=closeCart;els.overlay.onclick=closeCart;$('#privacyBtn').onclick=()=>openAppDialog(els.privacy);$('#itemQtyMinus').onclick=()=>{state.selectedQty=Math.max(1,state.selectedQty-1);els.itemQty.textContent=state.selectedQty;renderAddButton();};$('#itemQtyPlus').onclick=()=>{state.selectedQty=Math.min(99,state.selectedQty+1);els.itemQty.textContent=state.selectedQty;renderAddButton();};els.itemForm.addEventListener('submit',e=>{e.preventDefault();if(addSelected())els.itemDialog.close();});$('#closeItemDialog').onclick=()=>els.itemDialog.close();$('#closeCheckoutDialog').onclick=()=>els.checkout.close();$('#checkoutBtn').onclick=()=>{closeCart();els.checkoutTotal.textContent=money.format(orderTotal());openAppDialog(els.checkout);};document.querySelectorAll('input[name="fulfillment"]').forEach(r=>r.addEventListener('change',()=>{const delivery=document.querySelector('input[name="fulfillment"]:checked')?.value==='Entrega';els.addressFields.classList.toggle('hidden',!delivery);els.address.required=delivery;window.deliveryService?.setEnabled?.(delivery);els.checkoutTotal.textContent=money.format(orderTotal());}));els.payment.addEventListener('change',()=>els.changeField.classList.toggle('hidden',els.payment.value!=='Dinheiro'));els.checkoutForm.addEventListener('submit',e=>{e.preventDefault();if(!state.cart.length){toast('Seu pedido está vazio.','error');return;}const delivery=document.querySelector('input[name="fulfillment"]:checked')?.value==='Entrega';if(delivery&&!els.address.value.trim()){els.address.focus();toast('Confirme o endereço da entrega.','error');return;}if(delivery){const check=window.deliveryService?.validate?.()||{ok:false,message:'Calcule a distância da entrega.'};if(!check.ok){toast(check.message||'Calcule a entrega antes de continuar.','error');return;}}if(!els.checkoutForm.reportValidity())return;sendToWhatsApp();});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.drawer.classList.contains('open'))closeCart();});}
+  async function copyText(value,label='Conteúdo'){
+    const text=String(value||'');if(!text)return;try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);else throw new Error('fallback');toast(`${label} copiado.`,'success');}catch{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(`${label} copiado.`,'success');}catch{toast('Não foi possível copiar automaticamente.','error');}ta.remove();}
+  }
+  function paymentReturnUrl(){const u=new URL(location.href);u.hash='';u.search='';u.searchParams.set('payment_return','1');return u.toString();}
+  function checkoutPayload(intent){
+    const type=document.querySelector('input[name="fulfillment"]:checked')?.value||'Retirada',d=window.deliveryService?.getState?.()||{};
+    return {payment_intent:intent,customer:{name:$('#customerName').value.trim()},fulfillment:type,delivery:type==='Entrega'?{source:d.source||'',coords:Array.isArray(d.customerCoords)?d.customerCoords:null,address:els.address.value.trim(),district:els.district.value.trim()}:null,cart:state.cart.map(x=>({product_id:x.product_id,qty:x.qty,options:(x.options||[]).map(o=>({option_id:o.option_id,quantity:Math.max(1,Number(o.quantity)||1)}))})),expected_total:Number(orderTotal().toFixed(2)),redirect_url:paymentReturnUrl()};
+  }
+  function setPaymentDialogStatus(text='',type='info'){const e=els.paymentDialogStatus;if(!e)return;if(!text){e.className='form-message hidden';e.textContent='';return;}e.textContent=text;e.className=`form-message ${type}`;}
+  function bindPaymentCopyButtons(){els.paymentDialogDetails.querySelectorAll('[data-copy-payment]').forEach(b=>b.addEventListener('click',()=>copyText(b.dataset.copyPayment,b.dataset.copyLabel||'Conteúdo')));}
+  function openPaymentDialog(kind){
+    const s=state.paymentSettings||paymentSettingsReady({}),total=money.format(orderTotal());setPaymentDialogStatus();els.paymentDialogDetails.innerHTML='';els.paymentPrimaryBtn.disabled=false;els.paymentSecondaryBtn.disabled=false;
+    if(kind==='pix_direct'){
+      els.paymentDialogTitle.textContent='Pagar por Pix direto';els.paymentDialogDescription.textContent='Confira os dados abaixo. Copiar a chave ou o valor não confirma o pagamento.';
+      els.paymentDialogDetails.innerHTML=`<div class="payment-value-card"><small>Recebedor</small><strong>${escapeHtml(s.pix_receiver_name)}</strong></div><div class="payment-value-card"><small>Chave ${escapeHtml(s.pix_key_type||'Pix')}</small><strong>${escapeHtml(s.pix_key)}</strong></div><div class="payment-value-card"><small>Valor exato</small><strong>${escapeHtml(total)}</strong></div><div class="payment-copy-row"><button class="secondary-button compact" type="button" data-copy-payment="${escapeHtml(s.pix_key)}" data-copy-label="Chave Pix">Copiar chave Pix</button><button class="secondary-button compact" type="button" data-copy-payment="${escapeHtml(orderTotal().toFixed(2).replace('.',','))}" data-copy-label="Valor">Copiar valor</button></div>`;
+      els.paymentSecondaryBtn.textContent='Voltar';els.paymentSecondaryBtn.onclick=()=>els.paymentDialog.close();els.paymentPrimaryBtn.textContent='Enviar pedido no WhatsApp';els.paymentPrimaryBtn.onclick=sendToWhatsApp;bindPaymentCopyButtons();
+    }else{
+      const intent=els.payment.value==='credit_card'?'credit_card':'pix';els.paymentDialogTitle.textContent='Pagar online pela InfinitePay';els.paymentDialogDescription.textContent=intent==='pix'?'O checkout será aberto com o valor exato do pedido. Na InfinitePay, escolha Pix.':'O checkout será aberto com o valor exato do pedido. Na InfinitePay, escolha cartão de crédito.';
+      els.paymentDialogDetails.innerHTML=`<div class="payment-value-card"><small>Total do pedido</small><strong>${escapeHtml(total)}</strong></div><p class="payment-method-note">Abrir a InfinitePay não marca o pedido como pago. A confirmação depende do pagamento realizado no checkout.</p>`;
+      els.paymentSecondaryBtn.textContent='Enviar pedido no WhatsApp';els.paymentSecondaryBtn.onclick=sendToWhatsApp;els.paymentPrimaryBtn.textContent='Pagar online pela InfinitePay';els.paymentPrimaryBtn.onclick=()=>startInfinitePay(intent);
+    }
+    if(els.checkout.open)els.checkout.close();openAppDialog(els.paymentDialog);
+  }
+  async function startInfinitePay(intent){
+    if(state.paymentBusy)return;state.paymentBusy=true;const b=els.paymentPrimaryBtn,old=b.textContent;b.disabled=true;b.textContent='Preparando pagamento…';setPaymentDialogStatus('Preparando pagamento…','info');
+    try{const data=await api.createInfinitePayCheckout(checkoutPayload(intent));const expected=Math.round(orderTotal()*100);if(Number.isFinite(Number(data?.total_cents))&&Number(data.total_cents)!==expected)throw new Error('O valor validado pelo servidor ficou diferente do total do carrinho. O pagamento foi interrompido por segurança.');if(!/^https:\/\/checkout\.infinitepay\.com\.br\//i.test(String(data?.url||'')))throw new Error('A InfinitePay não retornou um link de pagamento válido.');window.__TEST_LAST_INFINITEPAY_URL__=data.url;setPaymentDialogStatus('Pagamento preparado. Abrindo a InfinitePay…','success');if(typeof window.__INFINITEPAY_NAVIGATOR__==='function'){window.__INFINITEPAY_NAVIGATOR__(data.url);return;}window.location.assign(data.url);}catch(e){setPaymentDialogStatus(e.message||'Não foi possível iniciar o pagamento agora. Tente novamente.','error');b.disabled=false;b.textContent=old;}finally{state.paymentBusy=false;}
+  }
+  function validateCheckout(){
+    if(!state.cart.length){toast('Seu pedido está vazio.','error');return false;}const delivery=document.querySelector('input[name="fulfillment"]:checked')?.value==='Entrega';if(delivery&&!els.address.value.trim()){els.address.focus();toast('Confirme o endereço da entrega.','error');return false;}if(delivery){const check=window.deliveryService?.validate?.()||{ok:false,message:'Calcule a distância da entrega.'};if(!check.ok){toast(check.message||'Calcule a entrega antes de continuar.','error');return false;}}if(!els.checkoutForm.reportValidity())return false;if(!els.payment.value){els.payment.focus();toast('Escolha a forma de pagamento.','error');return false;}if(els.payment.value==='pix'&&!selectedPaymentChannel()){toast('Escolha como deseja pagar o Pix.','error');return false;}return true;
+  }
+  function finalizeCheckout(){if(!validateCheckout())return;const method=els.payment.value,channel=selectedPaymentChannel();if(method==='pix'&&channel==='pix_direct'){openPaymentDialog('pix_direct');return;}if((method==='pix'&&channel==='infinitepay')||method==='credit_card'){openPaymentDialog('infinitepay');return;}sendToWhatsApp();}
+  function initEvents(){
+    [els.itemDialog,els.checkout,els.paymentDialog,els.privacy].forEach(d=>d?.addEventListener('close',syncPageInteractionLock));els.search.addEventListener('input',()=>{state.query=els.search.value.trim();els.clear.classList.toggle('hidden',!state.query);renderMenu();});els.clear.addEventListener('click',()=>{els.search.value='';state.query='';els.clear.classList.add('hidden');renderMenu();els.search.focus();});$('#openCartTop').onclick=openCart;els.mobileCartBar.onclick=openCart;$('#closeCart').onclick=closeCart;els.overlay.onclick=closeCart;$('#privacyBtn').onclick=()=>openAppDialog(els.privacy);$('#itemQtyMinus').onclick=()=>{state.selectedQty=Math.max(1,state.selectedQty-1);els.itemQty.textContent=state.selectedQty;renderAddButton();};$('#itemQtyPlus').onclick=()=>{state.selectedQty=Math.min(99,state.selectedQty+1);els.itemQty.textContent=state.selectedQty;renderAddButton();};els.itemForm.addEventListener('submit',e=>{e.preventDefault();if(addSelected())els.itemDialog.close();});$('#closeItemDialog').onclick=()=>els.itemDialog.close();$('#closeCheckoutDialog').onclick=()=>els.checkout.close();$('#closePaymentDialog').onclick=()=>els.paymentDialog.close();$('#checkoutBtn').onclick=prepareCheckout;
+    document.querySelectorAll('input[name="fulfillment"]').forEach(r=>r.addEventListener('change',()=>{const delivery=document.querySelector('input[name="fulfillment"]:checked')?.value==='Entrega';els.addressFields.classList.toggle('hidden',!delivery);els.address.required=delivery;window.deliveryService?.setEnabled?.(delivery);els.checkoutTotal.textContent=money.format(orderTotal());renderPaymentSuboptions();}));els.payment.addEventListener('change',renderPaymentSuboptions);els.checkoutForm.addEventListener('submit',e=>{e.preventDefault();finalizeCheckout();});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.drawer.classList.contains('open'))closeCart();});
+  }
   document.addEventListener('cantinho:delivery-updated',()=>{if(els.checkoutTotal)els.checkoutTotal.textContent=money.format(orderTotal());});
   initEvents();loadMenu();
 })();

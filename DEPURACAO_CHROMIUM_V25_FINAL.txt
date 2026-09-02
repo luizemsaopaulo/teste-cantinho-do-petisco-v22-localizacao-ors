@@ -1,0 +1,112 @@
+CANTINHO DO PETISCO — V25 — DEPURAÇÃO FINAL NO CHROMIUM
+========================================================
+
+RESULTADO FINAL: 30/30 VERIFICAÇÕES APROVADAS
+Falhas finais: 0
+Navegador: Chromium real (/usr/bin/chromium), controlado por Playwright.
+Viewports exercitados: desktop 1440x1000, desktop 1200x900 e mobile 390x844.
+
+IMPORTANTE SOBRE O AMBIENTE
+---------------------------
+A política administrativa deste ambiente bloqueia navegação direta do Chromium para URLs HTTP/HTTPS/localhost (ERR_BLOCKED_BY_ADMINISTRATOR).
+Por isso, os arquivos EXATOS HTML/CSS/JS do projeto foram carregados dentro do Chromium real e as interações foram executadas por clique/preenchimento como um cliente real. As chamadas externas de rota/pagamento foram simuladas no formato esperado das APIs para validar fluxo, DOM, cálculos, mensagens e estados sem depender da rede bloqueada.
+A lógica de integração da InfinitePay foi conferida com o endpoint oficial do Checkout Integrado: POST https://api.checkout.infinitepay.io/links.
+
+CLIENTE — APROVADO
+------------------
+PASS — cardápio carregou (55 cards agrupados).
+PASS — produto adicionado clicando no card.
+PASS — carrinho e checkout abriram por clique.
+PASS — formas configuradas: Pix, crédito, débito e dinheiro.
+PASS — Pix exige escolher InfinitePay ou Pix direto.
+PASS — Pix direto mostra chave/recebedor/valor, permite copiar e NÃO marca como pago.
+PASS — WhatsApp do Pix direto informa corretamente a forma escolhida.
+PASS — InfinitePay recebe total dinâmico do pedido.
+PASS — proteção contra clique duplo evita abrir dois checkouts.
+PASS — cartão de crédito direciona para InfinitePay.
+PASS — cartão de débito fica apenas na maquininha, sem checkout online.
+PASS — entrega calculou distância e taxa normalmente.
+PASS — rota de teste retornou 14 minutos INTERNAMENTE e esses 14 minutos NÃO apareceram ao cliente.
+PASS — WhatsApp não contém tempo, ETA ou prazo estimado.
+PASS — alterar o endereço invalida a rota anterior e exige novo cálculo.
+PASS — rota acima de 3 km bloqueia entrega.
+PASS — GPS negado apresenta fallback para endereço manual.
+PASS — pedido com vários itens, quantidade e adicional recalcula total corretamente.
+PASS — total de R$ 54,99 chegou à InfinitePay como 5499 centavos no teste.
+PASS — erro simulado da InfinitePay preserva carrinho e permite tentar novamente.
+PASS — nenhuma forma de pagamento ativa bloqueia a finalização com mensagem amigável.
+PASS — console/page errors: 0 nos fluxos principais.
+
+MOBILE — APROVADO
+-----------------
+PASS — viewport 390x844.
+PASS — GPS, entrega e Pix renderizados corretamente.
+PASS — distância 2,50 km e taxa R$ 5,00.
+PASS — duração interna de 14 min não aparece na interface.
+PASS — sem erros JavaScript.
+
+ADM — APROVADO
+--------------
+PASS — seção Pagamentos abre no painel.
+PASS — InfinitePay pode ser ativada/desativada.
+PASS — InfiniteTag/Handle pode ser cadastrada pelo ADM.
+PASS — símbolo $ é removido/normalizado automaticamente.
+PASS — Pix direto pode ser ativado/desativado.
+PASS — tipo da chave, chave Pix e nome do recebedor podem ser editados.
+PASS — crédito online pode ser ativado/desativado.
+PASS — débito na maquininha pode ser ativado/desativado.
+PASS — dinheiro foi preservado e pode ser ativado/desativado.
+PASS — configurações persistem ao fechar e reabrir o painel.
+PASS — campos públicos de ETA foram removidos do ADM.
+PASS — console/page errors: 0.
+
+SEGURANÇA / BACK-END — APROVADO
+-------------------------------
+PASS — nova tabela payment_settings usa RLS.
+PASS — leitura pública somente das configurações necessárias; alteração restrita a administrador autenticado.
+PASS — página pública não recebe token/secret da InfinitePay.
+PASS — create-payment recalcula produtos, preços, opções e adicionais no servidor.
+PASS — create-payment recalcula taxa de entrega no servidor para pedidos de entrega.
+PASS — divergência entre total do navegador e total do servidor interrompe pagamento.
+PASS — opção/adicional duplicado é rejeitado pelo servidor.
+PASS — o checkout InfinitePay é criado somente depois das validações.
+PASS — endpoint usado: https://api.checkout.infinitepay.io/links.
+
+ARQUIVOS PRINCIPAIS ALTERADOS / CRIADOS
+---------------------------------------
+- index.html
+- restaurante.html
+- admin.html
+- css/styles.css
+- js/app.js
+- js/admin.js
+- js/config.js
+- js/delivery.js
+- js/supabase-rest.js
+- js/pwa-client.js
+- js/pwa-admin.js
+- service-worker.js
+- supabase/functions/calc-delivery/index.ts
+- supabase/functions/create-payment/index.ts (novo)
+- EXECUTAR_NO_SUPABASE_V25.sql (novo)
+- ATUALIZAR_EDGE_FUNCTION_V25.bat (novo)
+- CONFIGURAR_PAGAMENTOS_V25.txt (novo)
+- LINKS_V25.txt (novo)
+
+EVIDÊNCIAS DE QA
+----------------
+- qa_v25_client_desktop.png
+- qa_v25_client_mobile.png
+- qa_v25_admin_pagamentos.png
+- resultado_chromium_v25.json
+
+ANTES DE PUBLICAR
+-----------------
+1. Execute EXECUTAR_NO_SUPABASE_V25.sql no SQL Editor do Supabase.
+2. Publique as Edge Functions com ATUALIZAR_EDGE_FUNCTION_V25.bat (ou pela CLI Supabase).
+3. No InfinitePay, habilite Checkout Integrado.
+4. No ADM > Pagamentos, informe a InfiniteTag sem o símbolo $ e configure Pix/crédito/débito.
+5. Publique os arquivos do site no GitHub Pages.
+6. Teste a conta InfinitePay real com um pedido de baixo valor antes de liberar para clientes.
+
+Observação: abrir o checkout ou copiar Pix NÃO é confirmação de pagamento. Esta versão preserva essa distinção.

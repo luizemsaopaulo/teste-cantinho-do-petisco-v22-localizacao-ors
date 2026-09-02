@@ -27,12 +27,12 @@
   <meta name="twitter:description" content="Confira o cardápio completo do Cantinho do Petisco com pratos, porções e bebidas.">
   <meta name="twitter:image" content="https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/assets/whatsapp-preview-v2.jpg?v=24">
   <title>Cantinho do Petisco | Cardápio no Restaurante</title>
-  <link rel="manifest" href="manifest.webmanifest?v=24">
+  <link rel="manifest" href="manifest.webmanifest?v=25">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cantinho">
-  <link rel="apple-touch-icon" href="assets/icon-client-192.png?v=24">
-  <link rel="stylesheet" href="css/styles.css?v=24">
+  <link rel="apple-touch-icon" href="assets/icon-client-192.png?v=25">
+  <link rel="stylesheet" href="css/styles.css?v=25">
 </head>
 <body data-menu-mode="restaurant">
   <div class="app-shell">
@@ -198,19 +198,18 @@
             <p id="deliveryStatus" class="delivery-status info">Calcule a distância para liberar o envio do pedido.</p>
             <div id="deliveryResult" class="delivery-result hidden" aria-live="polite">
               <span><small>Distância</small><strong id="deliveryDistance">—</strong></span>
-              <span><small>Tempo estimado</small><strong id="deliveryDuration">—</strong></span>
               <span><small>Taxa</small><strong id="deliveryFee">—</strong></span>
             </div>
           </div>
         </div>
 
-        <label class="field-label">Forma de pagamento
-          <select id="paymentMethod">
-            <option>Pix</option>
-            <option>Cartão</option>
-            <option>Dinheiro</option>
+        <label class="field-label">Forma de pagamento <span>*</span>
+          <select id="paymentMethod" required>
+            <option value="">Carregando formas de pagamento…</option>
           </select>
         </label>
+
+        <div id="paymentSuboptions" class="payment-suboptions hidden" aria-live="polite"></div>
 
         <label id="changeField" class="field-label hidden">Troco para
           <input id="changeFor" type="text" inputmode="decimal" maxlength="20" placeholder="Ex.: 100,00">
@@ -223,9 +222,24 @@
         <div class="checkout-summary">
           <span>Total do pedido</span><strong id="checkoutTotal">R$ 0,00</strong>
         </div>
-        <button id="sendWhatsappBtn" class="primary-button whatsapp-button" type="submit" value="default">Enviar pedido no WhatsApp</button>
+        <button id="sendWhatsappBtn" class="primary-button whatsapp-button" type="submit" value="default">Continuar</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog id="paymentDialog" class="app-dialog payment-dialog">
+    <div class="dialog-body">
+      <button id="closePaymentDialog" class="dialog-close" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">Pagamento</span>
+      <h2 id="paymentDialogTitle">Finalizar pagamento</h2>
+      <p id="paymentDialogDescription" class="dialog-description"></p>
+      <div id="paymentDialogDetails" class="payment-dialog-details"></div>
+      <div id="paymentDialogStatus" class="form-message hidden" aria-live="polite"></div>
+      <div class="dialog-actions payment-dialog-actions">
+        <button id="paymentSecondaryBtn" class="secondary-button" type="button">Fechar</button>
+        <button id="paymentPrimaryBtn" class="primary-button" type="button">Continuar</button>
+      </div>
+    </div>
   </dialog>
 
   <dialog id="privacyDialog" class="app-dialog info-dialog">
@@ -235,7 +249,7 @@
         <span class="eyebrow">Privacidade</span>
         <h2>Como este cardápio trata seus dados</h2>
         <p>O cardápio usa o Supabase para exibir produtos, preços e disponibilidade. Quando você escolhe entrega, a localização ou o endereço informado é enviado à nossa Edge Function apenas para calcular a distância e a taxa; a chave do serviço de rotas fica protegida no servidor.</p>
-        <p>Os dados do checkout são usados para montar a mensagem do WhatsApp e não são gravados no banco por esta página. O carrinho pode ficar salvo localmente no seu navegador para facilitar a continuidade do pedido. Não usamos rastreadores de publicidade neste projeto.</p>
+        <p>Os dados do checkout são usados para montar a mensagem do WhatsApp. Se você escolher pagamento online, os dados necessários do pedido são enviados à InfinitePay para gerar o checkout. Esta página não marca um pedido como pago apenas por abrir o pagamento ou copiar uma chave Pix. O carrinho pode ficar salvo localmente no seu navegador para facilitar a continuidade do pedido. Não usamos rastreadores de publicidade neste projeto.</p>
         <button class="secondary-button" value="cancel">Entendi</button>
       </div>
     </form>
@@ -254,8 +268,8 @@
   <script src="js/config.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/supabase-rest.js"></script>
-  <script src="js/delivery.js?v=24"></script>
-  <script src="js/app.js?v=24"></script>
-  <script src="js/pwa-client.js?v=24"></script>
+  <script src="js/delivery.js?v=25"></script>
+  <script src="js/app.js?v=25"></script>
+  <script src="js/pwa-client.js?v=25"></script>
 </body>
 </html>

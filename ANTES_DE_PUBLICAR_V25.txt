@@ -1,0 +1,11 @@
+ANTES DE PUBLICAR A V25
+=======================
+
+[ ] Executar EXECUTAR_NO_SUPABASE_V25.sql.
+[ ] Executar ATUALIZAR_EDGE_FUNCTION_V25.bat ou publicar calc-delivery + create-payment pela CLI.
+[ ] Habilitar Checkout Integrado na InfinitePay.
+[ ] Abrir ADM > Pagamentos e configurar InfiniteTag/Pix/meios aceitos.
+[ ] Publicar o site no repositório GitHub Pages.
+[ ] Abrir o link com ?v=25 para evitar cache antigo.
+[ ] Fazer um pedido real de baixo valor e confirmar retorno do checkout.
+[ ] Confirmar que o cliente vê distância/taxa, mas NÃO vê tempo/ETA.

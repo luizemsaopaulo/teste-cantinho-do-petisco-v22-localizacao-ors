@@ -2,8 +2,8 @@
   'use strict';
 
   const BASE = 'https://luizemsaopaulo.github.io/cantinho-do-petisco-v14/';
-  const DELIVERY_URL = BASE + '?v=24';
-  const RESTAURANT_URL = BASE + 'restaurante.html?v=24';
+  const DELIVERY_URL = BASE + '?v=25';
+  const RESTAURANT_URL = BASE + 'restaurante.html?v=25';
   let deferredPrompt = null;
   let lastMenuFocus = null;
 
@@ -117,7 +117,7 @@
   }
 
   if('serviceWorker' in navigator){
-    addEventListener('load', ()=>navigator.serviceWorker.register('service-worker.js?v=24',{scope:'./'}).catch(()=>{}));
+    addEventListener('load', ()=>navigator.serviceWorker.register('service-worker.js?v=25',{scope:'./'}).catch(()=>{}));
   }
 
   addEventListener('beforeinstallprompt', event=>{

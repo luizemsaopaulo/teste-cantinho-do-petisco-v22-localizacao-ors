@@ -1,0 +1,37 @@
+CANTINHO DO PETISCO — V25 — PAGAMENTOS
+=======================================
+
+1) No Supabase > SQL Editor, execute:
+   EXECUTAR_NO_SUPABASE_V25.sql
+
+2) Publique as Edge Functions. No Windows, você pode executar:
+   ATUALIZAR_EDGE_FUNCTION_V25.bat
+
+3) Abra o ADM > menu > Pagamentos.
+
+4) InfinitePay:
+   - habilite o Checkout Integrado na sua conta InfinitePay;
+   - informe a InfiniteTag/Handle SEM o símbolo $;
+   - ative InfinitePay;
+   - ative Cartão de crédito online se quiser oferecê-lo.
+
+5) Pix direto:
+   - ative Pix direto;
+   - selecione o tipo (ex.: CNPJ);
+   - informe a chave e o nome do recebedor.
+
+6) Débito:
+   - é presencial na maquininha, na entrega ou retirada;
+   - não é enviado ao checkout online.
+
+7) Dinheiro:
+   - foi preservado e pode ser ligado/desligado no ADM.
+
+IMPORTANTE
+- A página pública não guarda token/secret da InfinitePay.
+- O Checkout Integrado usa a InfiniteTag/Handle, que identifica publicamente a conta.
+- O link da InfinitePay é gerado dinamicamente com os itens do pedido.
+- A Edge Function recalcula os preços/opções no Supabase e recalcula a taxa de entrega antes de criar o checkout.
+- Se o total do navegador não conferir com o total recalculado no servidor, o pagamento é interrompido.
+- Abrir a InfinitePay ou copiar a chave Pix NÃO marca o pedido como pago.
+- O tempo/duração da rota não é exibido ao cliente e não entra no WhatsApp.

@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#b20d18">
   <meta name="robots" content="noindex,nofollow">
   <title>Admin | Cantinho do Petisco</title>
-  <link rel="manifest" href="manifest-admin.webmanifest?v=24">
+  <link rel="manifest" href="manifest-admin.webmanifest?v=25">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cantinho ADM">
-  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=24">
-  <link rel="stylesheet" href="css/styles.css?v=24">
+  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=25">
+  <link rel="stylesheet" href="css/styles.css?v=25">
 </head>
 <body class="admin-body">
   <main class="admin-shell">
@@ -78,6 +78,7 @@
           <button id="qrRestaurantBtn" class="admin-tools-item" type="button"><span>▦</span><strong>QR Code Restaurante</strong></button>
           <div class="admin-tools-divider" role="separator"></div>
           <button id="deliverySettingsBtn" class="admin-tools-item" type="button"><span>⚙️</span><strong>Configurações do Delivery</strong></button>
+          <button id="paymentSettingsBtn" class="admin-tools-item" type="button"><span>💳</span><strong>Pagamentos</strong></button>
         </nav>
       </aside>
       <div class="admin-metrics">
@@ -325,8 +326,6 @@
             <label>Distância máxima (km)<input id="deliveryMaxKm" type="number" min="0.1" max="100" step="0.1" required></label>
             <label>Pedido mínimo (R$)<input id="deliveryMinimumOrder" type="number" min="0" step="0.01" placeholder="Sem mínimo"></label>
             <label>Entrega grátis a partir de (R$)<input id="deliveryFreeOver" type="number" min="0" step="0.01" placeholder="Desativado"></label>
-            <label>Tempo mínimo estimado (min)<input id="deliveryEtaMin" type="number" min="0" max="600" step="1"></label>
-            <label>Tempo máximo estimado (min)<input id="deliveryEtaMax" type="number" min="0" max="600" step="1"></label>
           </div>
           <p class="delivery-coordinate-note">Origem fixa do comércio: <strong>-23.055199, -46.3526171</strong></p>
         </section>
@@ -356,6 +355,53 @@
     </form>
   </dialog>
 
+
+  <dialog id="paymentSettingsDialog" class="app-dialog payment-settings-dialog">
+    <form id="paymentSettingsForm" class="dialog-body payment-settings-form">
+      <button id="closePaymentSettings" class="dialog-close" type="button" aria-label="Fechar">×</button>
+      <span class="eyebrow">Pagamentos</span>
+      <h2>Configurações de pagamento</h2>
+      <p class="dialog-description">Ative somente os meios que o restaurante realmente aceita. As configurações ficam salvas no Supabase e a página pública se adapta automaticamente.</p>
+
+      <div id="paymentSettingsLoading" class="form-message">Carregando configurações…</div>
+      <div id="paymentSettingsFields" class="hidden">
+        <section class="delivery-settings-section">
+          <div class="payment-settings-title-row"><div><h3>InfinitePay</h3><p>Checkout Integrado para Pix e cartão de crédito.</p></div><span id="infinitePayStatus" class="payment-status-badge">Não configurada</span></div>
+          <label class="admin-check-row"><input id="infinitePayEnabled" type="checkbox"><span><strong>InfinitePay ativa</strong><small>Quando desativada, nenhuma opção online da InfinitePay aparece para o cliente.</small></span></label>
+          <label>InfiniteTag / Handle <input id="infinitePayHandle" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: cantinhodopetisco"></label>
+          <p class="field-hint">Informe a InfiniteTag sem o símbolo <strong>$</strong>. O Checkout Integrado precisa estar habilitado na sua conta InfinitePay.</p>
+          <label class="admin-check-row"><input id="creditOnlineEnabled" type="checkbox"><span><strong>Cartão de crédito online</strong><small>Disponível somente quando a InfinitePay estiver ativa e configurada.</small></span></label>
+        </section>
+
+        <section class="delivery-settings-section">
+          <h3>Pix direto</h3>
+          <label class="admin-check-row"><input id="pixDirectEnabled" type="checkbox"><span><strong>Pix direto ativo</strong><small>Exibe a chave e o valor para o cliente copiar. Copiar a chave não confirma pagamento.</small></span></label>
+          <div class="delivery-settings-grid">
+            <label>Tipo da chave
+              <select id="pixKeyType">
+                <option value="CNPJ">CNPJ</option><option value="CPF">CPF</option><option value="Telefone">Telefone</option><option value="E-mail">E-mail</option><option value="Aleatória">Aleatória</option>
+              </select>
+            </label>
+            <label>Chave Pix <input id="pixKey" type="text" maxlength="160" autocomplete="off" placeholder="Digite a chave"></label>
+          </div>
+          <label>Nome do recebedor <input id="pixReceiverName" type="text" maxlength="120" autocomplete="off" placeholder="Nome que o cliente deve conferir"></label>
+        </section>
+
+        <section class="delivery-settings-section">
+          <h3>Pagamento presencial</h3>
+          <label class="admin-check-row"><input id="debitMachineEnabled" type="checkbox"><span><strong>Cartão de débito na maquininha</strong><small>Pagamento no momento da entrega ou retirada.</small></span></label>
+          <label class="admin-check-row"><input id="cashEnabled" type="checkbox"><span><strong>Dinheiro</strong><small>Mantém a opção de dinheiro e o campo de troco já existente.</small></span></label>
+        </section>
+
+        <div id="paymentSettingsMessage" class="form-message hidden"></div>
+        <div class="dialog-actions">
+          <button id="cancelPaymentSettings" class="secondary-button" type="button">Cancelar</button>
+          <button id="savePaymentSettings" class="primary-button" type="submit">Salvar pagamentos</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
   <dialog id="qrDialog" class="app-dialog info-dialog qr-dialog"><div class="dialog-body"><span class="eyebrow">Compartilhar</span><h2 id="qrDialogTitle">QR Code</h2><img id="qrDialogImage" class="qr-dialog-image" alt="QR Code do cardápio"><p id="qrDialogLink" class="qr-dialog-link"></p><button id="closeQrDialog" class="primary-button" type="button">Fechar</button></div></dialog>
   <dialog id="adminIosInstallDialog" class="app-dialog info-dialog pwa-ios-dialog"><div class="dialog-body"><span class="eyebrow">Instalar no iPhone</span><h2>Adicionar Cantinho Admin</h2><p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><button id="closeAdminIosInstall" class="primary-button" type="button">Entendi</button></div></dialog>
   <div id="toastRegion" class="toast-region" aria-live="polite"></div>
@@ -363,7 +409,7 @@
   <script src="js/config.js"></script>
   <script src="js/mock-data.js"></script>
   <script src="js/supabase-rest.js"></script>
-  <script src="js/admin.js?v=24"></script>
-  <script src="js/pwa-admin.js?v=24"></script>
+  <script src="js/admin.js?v=25"></script>
+  <script src="js/pwa-admin.js?v=25"></script>
 </body>
 </html>
