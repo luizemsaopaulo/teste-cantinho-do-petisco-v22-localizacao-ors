@@ -1,0 +1,12 @@
+CANTINHO DO PETISCO — HOTFIX V26
+
+Motivo: corrigir mistura de arquivos V25 com cache antigo do js/supabase-rest.js, que causava:
+api.getPaymentSettings is not a function
+
+Correção:
+- cache-busting ?v=26 em config.js, mock-data.js e supabase-rest.js;
+- demais assets V25 também avançados para ?v=26;
+- service worker atualizado para cache cantinho-v26;
+- registro do service worker atualizado para ?v=26.
+
+O endereço do GitHub Pages pode continuar o mesmo. Basta substituir/publicar os arquivos desta pasta.
