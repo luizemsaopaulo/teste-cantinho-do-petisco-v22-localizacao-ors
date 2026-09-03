@@ -1,0 +1,14 @@
+CANTINHO DO PETISCO — V27
+
+- InfinitePay removida do fluxo público e do ADM.
+- Pix insere chave/recebedor somente no final da comanda do WhatsApp.
+- Crédito e débito: maquininha na entrega/retirada.
+- Dinheiro: pergunta obrigatória de troco; quando Sim, valida “troco para quanto” e calcula estimativa.
+- Histórico local de até 30 pedidos por aparelho, sem login e sem consulta pública por telefone.
+- Repetir pedido usa produtos/opções/preços atuais; itens indisponíveis são ignorados com aviso.
+- Se já houver carrinho, repetir oferece: adicionar, substituir ou cancelar.
+- Carrinho ganhou Editar para mudar tamanho/adicionais/observação antes de finalizar.
+- Localização, distância, taxa e limite foram preservados; tempo/ETA continua oculto.
+- Cache e assets atualizados para V27.
+- Campo novo de banco: credit_machine_enabled. O SQL V27 migra automaticamente o valor da configuração antiga, quando ela existir, sem apagar dados.
+- A Edge Function create-payment deixou de ser necessária e foi removida do pacote. calc-delivery permanece preservada.

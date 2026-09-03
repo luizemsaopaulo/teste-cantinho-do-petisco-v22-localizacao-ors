@@ -1,0 +1,112 @@
+CANTINHO DO PETISCO — V27 — DEPURAÇÃO FINAL NO CHROMIUM
+=============================================================
+
+RESULTADO FINAL: 48/48 VERIFICAÇÕES APROVADAS
+Falhas finais: 0
+Navegador: Chromium real (/usr/bin/chromium), controlado por Playwright.
+Viewports exercitados: desktop 1440x1000 e mobile 390x844.
+
+IMPORTANTE SOBRE O AMBIENTE
+----------------------------
+A política administrativa deste ambiente bloqueia navegação direta do Chromium para URLs HTTP/HTTPS/localhost (ERR_BLOCKED_BY_ADMINISTRATOR).
+Por isso, os arquivos EXATOS HTML/CSS/JS da V27 foram carregados dentro do Chromium real e as interações foram executadas por clique, teclado, preenchimento, abertura de carrinho, checkout, histórico e ADM como um cliente real.
+A resposta externa de rota foi simulada dentro do navegador usando o mesmo contrato JSON esperado da Edge Function calc-delivery, incluindo uma duração interna de 14 minutos, para confirmar que distância/taxa continuam funcionando e que o tempo/ETA não é exibido.
+
+CLIENTE / CHECKOUT / HISTÓRICO — APROVADO
+------------------------------------------
+PASS — Desktop cardápio carrega — 55
+PASS — InfinitePay ausente da página pública
+PASS — Adicional com quantidade entra no carrinho
+PASS — Distância calculada
+PASS — Taxa calculada
+PASS — Tempo interno de 14 min não aparece
+PASS — Formas: Pix/crédito/débito/dinheiro — ['Selecione', 'Pix', 'Cartão de crédito', 'Cartão de débito', 'Dinheiro']
+PASS — Pix não mostra chave na tela
+PASS — WhatsApp Pix contém chave
+PASS — WhatsApp Pix contém recebedor
+PASS — WhatsApp Pix sem ETA
+PASS — WhatsApp Pix sem InfinitePay
+PASS — Clique duplo gera um histórico só — 1
+PASS — Histórico guarda 2x + adicionais
+PASS — Console cliente principal sem erros — []
+PASS — Histórico persiste ao reabrir
+PASS — Repetir preenche carrinho
+PASS — Editar item do carrinho abre tamanho atual
+PASS — Cliente consegue mudar tamanho/adicionais
+PASS — Pode acrescentar item novo após repetir
+PASS — Cancelar repetição preserva carrinho
+PASS — Adicionar pedido antigo mantém carrinho e soma itens
+PASS — Substituir carrinho usa somente pedido antigo
+PASS — Console histórico/repetição sem erros — []
+PASS — Repetir usa preço atual do produto/adicional — Isca de tilápia · G
+
+Adicionais: 2x Ovo (+R$ 8,00)
+
+−
+2
++
+Editar
+Remover
+R$ 75,98
+PASS — Item indisponível é ignorado e item válido continua
+PASS — Aviso de item indisponível aparece
+PASS — Dinheiro pergunta se precisa de troco
+PASS — Dinheiro exige escolha de troco
+PASS — Troco menor que total é bloqueado
+PASS — Troco estimado aparece
+PASS — WhatsApp dinheiro com troco contém valores
+PASS — WhatsApp dinheiro sem troco
+PASS — Cartão de crédito retirada usa maquininha
+PASS — Cartão de débito retirada usa maquininha
+PASS — Crédito entrega usa maquininha com entregador
+PASS — GPS negado oferece endereço manual
+PASS — Entrega acima de 3 km é bloqueada
+PASS — Mobile sem rolagem horizontal — [390, 390]
+PASS — Histórico abre no mobile
+PASS — Console mobile sem erros — []
+PASS — Configuração ADM persiste
+PASS — Console ADM sem erros — []
+
+ADM — APROVADO
+---------------
+PASS — ADM não mostra InfinitePay
+PASS — ADM mostra Pix/crédito/débito/dinheiro
+PASS — Configuração ADM persiste
+PASS — Console ADM sem erros — []
+
+LIMPEZA / CACHE — APROVADO
+--------------------------
+PASS — Runtime sem referências InfinitePay
+PASS — Edge create-payment removida do pacote
+PASS — Service Worker V27
+
+REGRAS FINAIS
+-------------
+- Pix: chave/recebedor aparecem somente no final da comanda do WhatsApp; escolher Pix não marca como pago.
+- Crédito e débito: somente maquininha com o entregador na entrega ou no estabelecimento na retirada.
+- Dinheiro: exige informar se precisa de troco; se Sim, valida o valor e calcula troco estimado.
+- Histórico: fica no navegador/aparelho, persiste após reabrir, e repetição usa preços/opções atuais.
+- Carrinho existente: ao repetir, permite adicionar pedido antigo, substituir ou cancelar.
+- Localização: GPS/endereço, distância, taxa e limite de 3 km preservados; tempo/ETA oculto.
+- InfinitePay/create-payment: removidos do runtime e do fluxo do cliente/ADM.
+- Cache/PWA: atualizado para V27.
+
+ARQUIVOS NOVOS/PRINCIPAIS DA V27
+----------------------------------
+- index.html / restaurante.html / admin.html
+- css/styles.css
+- js/app.js / js/admin.js / js/supabase-rest.js / js/config.js
+- js/pwa-client.js / js/pwa-admin.js / service-worker.js
+- EXECUTAR_NO_SUPABASE_V27.sql
+- ANTES_DE_PUBLICAR_V27.txt
+- LINKS_V27.txt
+- resultado_chromium_v27.json
+- qa_v27_client_desktop.png / qa_v27_client_mobile.png / qa_v27_admin_pagamentos.png
+
+ANTES DE PUBLICAR
+------------------
+1. Execute EXECUTAR_NO_SUPABASE_V27.sql no SQL Editor do Supabase.
+2. Mantenha a Edge Function calc-delivery publicada. Não é necessária Edge Function de pagamento nesta versão.
+3. Configure Pix/crédito/débito/dinheiro em ADM > Pagamentos.
+4. Publique os arquivos da V27 e abra com ?v=27 (ou Ctrl+F5 uma vez).
+5. Faça um pedido final de teste no site publicado antes de divulgar aos clientes.

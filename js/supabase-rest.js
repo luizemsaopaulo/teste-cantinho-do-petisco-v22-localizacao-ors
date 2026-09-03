@@ -488,26 +488,19 @@
 
 
     paymentDefaults() {
-      return {
-        id: 1, infinitepay_enabled: false, infinitepay_handle: '', pix_direct_enabled: false,
-        pix_key_type: 'CNPJ', pix_key: '', pix_receiver_name: '', credit_online_enabled: false,
-        debit_machine_enabled: true, cash_enabled: true, _missing: false
-      };
+      return { id: 1, pix_direct_enabled: false, pix_key_type: 'CNPJ', pix_key: '', pix_receiver_name: '', credit_machine_enabled: true, debit_machine_enabled: true, cash_enabled: true, _missing: false };
     }
 
     demoPaymentSettings() {
-      const key = 'cantinho_demo_payment_settings_v25';
-      try {
-        const saved = JSON.parse(localStorage.getItem(key) || 'null');
-        if (saved && typeof saved === 'object') return { ...this.paymentDefaults(), ...saved };
-      } catch {}
-      return { ...this.paymentDefaults(), infinitepay_enabled: true, infinitepay_handle: 'cantinho-demo', pix_direct_enabled: true, pix_key: '12.345.678/0001-90', pix_receiver_name: 'Cantinho do Petisco', credit_online_enabled: true, debit_machine_enabled: true, cash_enabled: true };
+      const key = 'cantinho_demo_payment_settings_v27';
+      try { const saved = JSON.parse(localStorage.getItem(key) || 'null'); if (saved && typeof saved === 'object') return { ...this.paymentDefaults(), ...saved }; } catch {}
+      return { ...this.paymentDefaults(), pix_direct_enabled: true, pix_key: '12.345.678/0001-90', pix_receiver_name: 'Cantinho do Petisco', credit_machine_enabled: true, debit_machine_enabled: true, cash_enabled: true };
     }
 
     async getPublicPaymentSettings() {
       if (C.DEMO_MODE) return structuredClone(this.demoPaymentSettings());
       try {
-        const fields = 'id,infinitepay_enabled,infinitepay_handle,pix_direct_enabled,pix_key_type,pix_key,pix_receiver_name,credit_online_enabled,debit_machine_enabled,cash_enabled';
+        const fields = 'id,pix_direct_enabled,pix_key_type,pix_key,pix_receiver_name,credit_machine_enabled,debit_machine_enabled,cash_enabled';
         const rows = await this.request(`/rest/v1/payment_settings?id=eq.1&select=${fields}`, { headers: this.baseHeaders() });
         return { ...this.paymentDefaults(), ...(rows?.[0] || {}) };
       } catch (e) {
@@ -517,51 +510,20 @@
     }
 
     async getPaymentSettings() {
-      const session = await this.ensureSession();
-      if (!session) throw new Error('Sessão expirada.');
+      const session = await this.ensureSession(); if (!session) throw new Error('Sessão expirada.');
       if (C.DEMO_MODE) return structuredClone(this.demoPaymentSettings());
-      const rows = await this.request('/rest/v1/payment_settings?id=eq.1&select=*', { headers: this.baseHeaders(session.access_token) });
+      const rows = await this.request('/rest/v1/payment_settings?id=eq.1&select=id,pix_direct_enabled,pix_key_type,pix_key,pix_receiver_name,credit_machine_enabled,debit_machine_enabled,cash_enabled', { headers: this.baseHeaders(session.access_token) });
       return { ...this.paymentDefaults(), ...(rows?.[0] || {}) };
     }
 
     async savePaymentSettings(settings) {
-      const session = await this.ensureSession();
-      if (!session) throw new Error('Sessão expirada.');
-      const body = { ...settings, id: 1, updated_at: new Date().toISOString() };
-      if (C.DEMO_MODE) {
-        try { localStorage.setItem('cantinho_demo_payment_settings_v25', JSON.stringify(body)); } catch {}
-        window.MOCK_PAYMENT_SETTINGS = structuredClone(body);
-        return structuredClone(body);
-      }
-      const rows = await this.request('/rest/v1/payment_settings?id=eq.1', {
-        method: 'PATCH', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body)
-      });
+      const session = await this.ensureSession(); if (!session) throw new Error('Sessão expirada.');
+      const body = { id: 1, pix_direct_enabled: !!settings.pix_direct_enabled, pix_key_type: settings.pix_key_type || 'CNPJ', pix_key: String(settings.pix_key || ''), pix_receiver_name: String(settings.pix_receiver_name || ''), credit_machine_enabled: settings.credit_machine_enabled !== false, debit_machine_enabled: settings.debit_machine_enabled !== false, cash_enabled: settings.cash_enabled !== false, updated_at: new Date().toISOString() };
+      if (C.DEMO_MODE) { try { localStorage.setItem('cantinho_demo_payment_settings_v27', JSON.stringify(body)); } catch {} window.MOCK_PAYMENT_SETTINGS = structuredClone(body); return structuredClone(body); }
+      const rows = await this.request('/rest/v1/payment_settings?id=eq.1', { method: 'PATCH', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body) });
       if (rows?.[0]) return rows[0];
-      const inserted = await this.request('/rest/v1/payment_settings', {
-        method: 'POST', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body)
-      });
+      const inserted = await this.request('/rest/v1/payment_settings', { method: 'POST', headers: this.baseHeaders(session.access_token, { Prefer: 'return=representation' }), body: JSON.stringify(body) });
       return inserted?.[0] || null;
-    }
-
-    async createInfinitePayCheckout(payload) {
-      if (C.DEMO_MODE) {
-        const totalCents = Math.max(0, Math.round(Number(payload?.expected_total || 0) * 100));
-        return { ok: true, url: `https://checkout.infinitepay.com.br/cantinho-demo?qa=1&amount=${totalCents}`, order_nsu: `demo-${Date.now()}`, total_cents: totalCents };
-      }
-      const base = String(C.SUPABASE_URL || '').replace(/\/$/, '');
-      const name = String(C.PAYMENT_FUNCTION_NAME || 'create-payment').trim();
-      const response = await fetch(`${base}/functions/v1/${encodeURIComponent(name)}`, {
-        method: 'POST',
-        headers: this.baseHeaders(null, { 'x-cantinho-client': 'v25' }),
-        body: JSON.stringify(payload),
-      });
-      let data = null;
-      try { data = await response.json(); } catch {}
-      if (!response.ok || data?.ok === false) {
-        const err = new Error(data?.message || data?.error || 'Não foi possível iniciar o pagamento agora.');
-        err.status = response.status; err.body = data; throw err;
-      }
-      return data;
     }
 
     async getDeliverySettings() {

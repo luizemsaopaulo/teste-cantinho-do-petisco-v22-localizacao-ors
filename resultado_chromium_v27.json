@@ -1,0 +1,246 @@
+{
+  "passed": 48,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Desktop cardápio carrega",
+      "ok": true,
+      "detail": "55"
+    },
+    {
+      "name": "InfinitePay ausente da página pública",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Adicional com quantidade entra no carrinho",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Distância calculada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Taxa calculada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Tempo interno de 14 min não aparece",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Formas: Pix/crédito/débito/dinheiro",
+      "ok": true,
+      "detail": "['Selecione', 'Pix', 'Cartão de crédito', 'Cartão de débito', 'Dinheiro']"
+    },
+    {
+      "name": "Pix não mostra chave na tela",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp Pix contém chave",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp Pix contém recebedor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp Pix sem ETA",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp Pix sem InfinitePay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Clique duplo gera um histórico só",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Histórico guarda 2x + adicionais",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Console cliente principal sem erros",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Histórico persiste ao reabrir",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Repetir preenche carrinho",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Editar item do carrinho abre tamanho atual",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cliente consegue mudar tamanho/adicionais",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Pode acrescentar item novo após repetir",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cancelar repetição preserva carrinho",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Adicionar pedido antigo mantém carrinho e soma itens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Substituir carrinho usa somente pedido antigo",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Console histórico/repetição sem erros",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Repetir usa preço atual do produto/adicional",
+      "ok": true,
+      "detail": "Isca de tilápia · G\n\nAdicionais: 2x Ovo (+R$ 8,00)\n\n−\n2\n+\nEditar\nRemover\nR$ 75,98"
+    },
+    {
+      "name": "Item indisponível é ignorado e item válido continua",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Aviso de item indisponível aparece",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Dinheiro pergunta se precisa de troco",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Dinheiro exige escolha de troco",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Troco menor que total é bloqueado",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Troco estimado aparece",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp dinheiro com troco contém valores",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "WhatsApp dinheiro sem troco",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cartão de crédito retirada usa maquininha",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cartão de débito retirada usa maquininha",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Crédito entrega usa maquininha com entregador",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "GPS negado oferece endereço manual",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Entrega acima de 3 km é bloqueada",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Mobile sem rolagem horizontal",
+      "ok": true,
+      "detail": "[390, 390]"
+    },
+    {
+      "name": "Histórico abre no mobile",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Console mobile sem erros",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "ADM não mostra InfinitePay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ADM mostra Pix/crédito/débito/dinheiro",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Configuração ADM persiste",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Console ADM sem erros",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Runtime sem referências InfinitePay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Edge create-payment removida do pacote",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Service Worker V27",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+CANTINHO DO PETISCO — V27 — ANTES DE PUBLICAR
+
+1. Execute EXECUTAR_NO_SUPABASE_V27.sql no SQL Editor do mesmo projeto Supabase.
+2. A Edge Function calc-delivery permanece a mesma e deve continuar publicada.
+3. NÃO é necessária Edge Function de pagamento/InfinitePay nesta versão.
+4. No ADM > Pagamentos, configure Pix, crédito na maquininha, débito na maquininha e dinheiro.
+5. Publique todos os arquivos da V27 no GitHub Pages.
+6. Abra a página com ?v=27 ou faça Ctrl+F5 uma vez para renovar o cache/PWA.
+7. Faça um pedido de teste antes de enviar o link aos clientes.

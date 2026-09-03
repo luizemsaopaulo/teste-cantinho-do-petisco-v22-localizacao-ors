@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#b20d18">
   <meta name="robots" content="noindex,nofollow">
   <title>Admin | Cantinho do Petisco</title>
-  <link rel="manifest" href="manifest-admin.webmanifest?v=26">
+  <link rel="manifest" href="manifest-admin.webmanifest?v=27">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cantinho ADM">
-  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=26">
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="apple-touch-icon" href="assets/icon-admin-192.png?v=27">
+  <link rel="stylesheet" href="css/styles.css?v=27">
 </head>
 <body class="admin-body">
   <main class="admin-shell">
@@ -366,16 +366,8 @@
       <div id="paymentSettingsLoading" class="form-message">Carregando configurações…</div>
       <div id="paymentSettingsFields" class="hidden">
         <section class="delivery-settings-section">
-          <div class="payment-settings-title-row"><div><h3>InfinitePay</h3><p>Checkout Integrado para Pix e cartão de crédito.</p></div><span id="infinitePayStatus" class="payment-status-badge">Não configurada</span></div>
-          <label class="admin-check-row"><input id="infinitePayEnabled" type="checkbox"><span><strong>InfinitePay ativa</strong><small>Quando desativada, nenhuma opção online da InfinitePay aparece para o cliente.</small></span></label>
-          <label>InfiniteTag / Handle <input id="infinitePayHandle" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: cantinhodopetisco"></label>
-          <p class="field-hint">Informe a InfiniteTag sem o símbolo <strong>$</strong>. O Checkout Integrado precisa estar habilitado na sua conta InfinitePay.</p>
-          <label class="admin-check-row"><input id="creditOnlineEnabled" type="checkbox"><span><strong>Cartão de crédito online</strong><small>Disponível somente quando a InfinitePay estiver ativa e configurada.</small></span></label>
-        </section>
-
-        <section class="delivery-settings-section">
-          <h3>Pix direto</h3>
-          <label class="admin-check-row"><input id="pixDirectEnabled" type="checkbox"><span><strong>Pix direto ativo</strong><small>Exibe a chave e o valor para o cliente copiar. Copiar a chave não confirma pagamento.</small></span></label>
+          <h3>Pix</h3>
+          <label class="admin-check-row"><input id="pixDirectEnabled" type="checkbox"><span><strong>Pix ativo</strong><small>A chave aparece somente no final da comanda enviada ao WhatsApp.</small></span></label>
           <div class="delivery-settings-grid">
             <label>Tipo da chave
               <select id="pixKeyType">
@@ -389,8 +381,9 @@
 
         <section class="delivery-settings-section">
           <h3>Pagamento presencial</h3>
-          <label class="admin-check-row"><input id="debitMachineEnabled" type="checkbox"><span><strong>Cartão de débito na maquininha</strong><small>Pagamento no momento da entrega ou retirada.</small></span></label>
-          <label class="admin-check-row"><input id="cashEnabled" type="checkbox"><span><strong>Dinheiro</strong><small>Mantém a opção de dinheiro e o campo de troco já existente.</small></span></label>
+          <label class="admin-check-row"><input id="creditMachineEnabled" type="checkbox"><span><strong>Cartão de crédito na maquininha</strong><small>Pagamento com o entregador ou no momento da retirada.</small></span></label>
+          <label class="admin-check-row"><input id="debitMachineEnabled" type="checkbox"><span><strong>Cartão de débito na maquininha</strong><small>Pagamento com o entregador ou no momento da retirada.</small></span></label>
+          <label class="admin-check-row"><input id="cashEnabled" type="checkbox"><span><strong>Dinheiro</strong><small>O cliente informa se precisa de troco e para quanto.</small></span></label>
         </section>
 
         <div id="paymentSettingsMessage" class="form-message hidden"></div>
@@ -406,10 +399,10 @@
   <dialog id="adminIosInstallDialog" class="app-dialog info-dialog pwa-ios-dialog"><div class="dialog-body"><span class="eyebrow">Instalar no iPhone</span><h2>Adicionar Cantinho Admin</h2><p>No Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p><button id="closeAdminIosInstall" class="primary-button" type="button">Entendi</button></div></dialog>
   <div id="toastRegion" class="toast-region" aria-live="polite"></div>
 
-  <script src="js/config.js?v=26"></script>
-  <script src="js/mock-data.js?v=26"></script>
-  <script src="js/supabase-rest.js?v=26"></script>
-  <script src="js/admin.js?v=26"></script>
-  <script src="js/pwa-admin.js?v=26"></script>
+  <script src="js/config.js?v=27"></script>
+  <script src="js/mock-data.js?v=27"></script>
+  <script src="js/supabase-rest.js?v=27"></script>
+  <script src="js/admin.js?v=27"></script>
+  <script src="js/pwa-admin.js?v=27"></script>
 </body>
 </html>
